@@ -6,6 +6,7 @@ from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.debugtoolbar import DebugToolbarExtension
 from flask.ext.restful import Resource, Api
+from flask.ext.httpauth import HTTPBasicAuth
 
 from .. import app
 
@@ -47,3 +48,9 @@ bcrypt = Bcrypt(app)
 RESTful
 """
 api = Api(app)
+
+
+"""
+Auth
+"""
+auth = HTTPBasicAuth()
