@@ -1,1 +1,5 @@
-# api/models/__init__.py
+# package
+
+from .user import User
+from .mark import Mark
+from .tag import Tag
