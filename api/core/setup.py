@@ -5,6 +5,8 @@ from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.debugtoolbar import DebugToolbarExtension
+from flask.ext.restful import Resource, Api
+
 from .. import app
 
 app.config.from_object('config')
@@ -40,3 +42,8 @@ manager.add_command('db', MigrateCommand)
 Bcrypt
 """
 bcrypt = Bcrypt(app)
+
+"""
+RESTful
+"""
+api = Api(app)
