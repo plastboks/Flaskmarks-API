@@ -17,6 +17,11 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'flaskmarks.sqlit
 # SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@server/db'
 
 """
+Security
+"""
+SECRET_KEY = "REPLACE ME"
+
+"""
 Debugging
 """
 DEBUG_MODE = True
