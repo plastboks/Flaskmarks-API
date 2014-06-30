@@ -52,3 +52,12 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+
+# Binaries
+*.pyc
+
+# Vim
+*.swp
+
+# Config files
+config.py
