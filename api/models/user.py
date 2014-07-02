@@ -10,7 +10,6 @@ from .mark import Mark
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.Unicode(255), unique=True, nullable=False)
     email = db.Column(db.Unicode(255), unique=True, nullable=False)
     password = db.Column(db.Unicode(255), nullable=False)
     last_logged = db.Column(db.DateTime)
@@ -20,7 +19,7 @@ class User(db.Model):
     marks = db.relationship('Mark', backref='owner', lazy='dynamic')
 
     @classmethod
-    def by_uname_or_email(self, uname):
+    def by_email(self, uname):
         return self.query.filter(or_(User.username == uname,
                                      User.email == uname)).first()
 
@@ -84,7 +83,7 @@ class User(db.Model):
         return self.my_tags().order_by(Tag.marks.any(Mark.clicks))\
                              .paginate(page, self.per_page, False)
 
-    def authenticate_user(self, password):
+    def verify_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
 
     def is_authenticated(self):
