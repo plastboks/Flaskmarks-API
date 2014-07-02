@@ -12,11 +12,18 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.Unicode(255), unique=True, nullable=False)
     password = db.Column(db.Unicode(255), nullable=False)
-    last_logged = db.Column(db.DateTime)
     per_page = db.Column(db.SmallInteger, default=10)
     sort_type = db.Column(db.Unicode(255), default=u'clicks')
+    date_created = db.Column(db.DateTime)
+    last_logged_in = db.Column(db.DateTime)
 
     marks = db.relationship('Mark', backref='owner', lazy='dynamic')
+
+    def __init__(self, email = False, password = False):
+        if email:
+            self.email = email
+        if password:
+            self.password = password
 
     @classmethod
     def by_email(self, uname):
