@@ -16,7 +16,7 @@ class User(db.Model):
     password = db.Column(db.Unicode(255), nullable=False)
     per_page = db.Column(db.SmallInteger, default=10)
     sort_type = db.Column(db.Unicode(255), default=u'clicks')
-    date_created = db.Column(db.DateTime, default=datetime.utcnow())
+    created = db.Column(db.DateTime, default=datetime.utcnow())
     last_logged_in = db.Column(db.DateTime)
 
     marks = db.relationship('Mark', backref='owner', lazy='dynamic')
@@ -138,6 +138,14 @@ class User(db.Model):
     def tags_by_click(self, page):
         return self.my_tags().order_by(Tag.marks.any(Mark.clicks))\
                              .paginate(page, self.per_page, False)
+
+    def save(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self
+        except Exception as e:
+            return False
 
     def __repr__(self):
         return '<User %r>' % (self.username)
