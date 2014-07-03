@@ -61,7 +61,7 @@ class User(db.Model):
         if tags:
             tagslist = []
             tagsparse = tags.strip().replace(',', ' ').split(' ')
-            for t in tagparse:
+            for t in tagsparse:
                 tag = Tag.check(t.lower())
                 if not tag:
                     tag = Tag(t.lower())

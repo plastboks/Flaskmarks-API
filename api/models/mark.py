@@ -40,5 +40,13 @@ class Mark(db.Model):
         else:
             self.created = dt.utcnow()
 
+    def update_mark(self, args):
+        for key, value in args.iteritems():
+            if value:
+                setattr(self, key, value)
+        db.session.add(self)
+        db.session.commit()
+        return self
+
     def __repr__(self):
         return '<Mark %r>' % (self.title)
