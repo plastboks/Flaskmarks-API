@@ -18,5 +18,5 @@ from . import views
 # routes
 core.setup.api.add_resource(views.Register, '/register')
 
-core.setup.api.add_resource(views.Mark, '/mark/<string:todo_id>')
-core.setup.api.add_resource(views.Marks, '/marks/<string:todo_id>')
+core.setup.api.add_resource(views.Mark, '/mark/<string:mark_id>')
+core.setup.api.add_resource(views.Marks, '/marks/default/<string:page>')

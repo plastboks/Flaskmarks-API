@@ -31,9 +31,8 @@ class User(db.Model):
     Authentication
     """
     @classmethod
-    def by_email(self, uname):
-        return self.query.filter(or_(User.username == uname,
-                                     User.email == uname)).first()
+    def by_email(self, email):
+        return self.query.filter(User.email == email).first()
 
     def verify_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
@@ -71,7 +70,8 @@ class User(db.Model):
             base = base.order_by(asc(Mark.created))
         if self.sort_type == u'datedesc':
             base = base.order_by(desc(Mark.created))
-        return base.paginate(page, self.per_page, False)
+        return base.all()
+        #return base.paginate(page, self.per_page, False)
 
     def recent_marks(self, page, type):
         if type == 'added':
