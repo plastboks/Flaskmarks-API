@@ -47,7 +47,7 @@ bcrypt = Bcrypt(app)
 """
 RESTful
 """
-api = Api(app)
+api = Api(app, catch_all_404s=True)
 
 
 """
