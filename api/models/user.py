@@ -70,8 +70,14 @@ class User(db.Model):
             base = base.order_by(asc(Mark.created))
         if self.sort_type == u'datedesc':
             base = base.order_by(desc(Mark.created))
-        return base.all()
-        #return base.paginate(page, self.per_page, False)
+        return base.paginate(page, self.per_page, False)
+
+    def json_pager(self, obj):
+        return {'page': obj.page,
+                'pages': obj.pages,
+                'next_num': obj.next_num,
+                'prev_num': obj.prev_num,
+                'total': obj.total}
 
     def recent_marks(self, page, type):
         if type == 'added':

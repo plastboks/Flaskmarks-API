@@ -14,5 +14,6 @@ class Mark(Resource):
 class Marks(Resource):
     @auth.login_required
     def get(self, page=1):
-        u = g.user
-        return {'marks': u.marks(page)}
+        marks = g.user.marks(page)
+        return {'marks': marks.items,
+                'pager': g.user.json_pager(marks)}
