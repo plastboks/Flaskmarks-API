@@ -140,12 +140,11 @@ class User(db.Model):
                              .paginate(page, self.per_page, False)
 
     def save(self):
-        try:
+        if not User.by_email(self.email):
             db.session.add(self)
             db.session.commit()
             return self
-        except Exception as e:
-            return False
+        return False
 
     def __repr__(self):
         return '<User %r>' % (self.username)
