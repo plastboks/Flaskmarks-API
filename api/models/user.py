@@ -21,7 +21,7 @@ class User(db.Model):
 
     marks = db.relationship('Mark', backref='owner', lazy='dynamic')
 
-    def __init__(self, email = False, password = False):
+    def __init__(self, email=False, password=False):
         if email:
             self.email = email
         if password:

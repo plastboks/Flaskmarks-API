@@ -4,6 +4,7 @@ from flask import g
 from .setup import auth
 from ..models import User
 
+
 @auth.verify_password
 def verify_password(username, password):
     u = User.by_email(username)

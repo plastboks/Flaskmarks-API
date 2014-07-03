@@ -17,12 +17,12 @@ class Register(Resource):
                             type=str,
                             required=True,
                             help='Missing password'
-                            ) 
+                            )
         args = parser.parse_args()
         u = User(args.email, args.password)
         try:
             db.session.add(u)
             db.session.commit()
-            return {'message' : 'User created'}, 201
+            return {'message': 'User created'}, 201
         except Exception as detail:
-            return {'message' : 'User exists'}, 409
+            return {'message': 'User exists'}, 409
