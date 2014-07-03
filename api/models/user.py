@@ -1,7 +1,8 @@
-# flaskmarks/models/user.py
+# api/models/user.py
 
 from sqlalchemy import or_, desc, asc, func
 from sqlalchemy.orm import aliased
+from datetime import datetime
 from ..core.setup import db, config, bcrypt
 from .tag import Tag
 from .mark import Mark
@@ -11,10 +12,11 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.Unicode(255), unique=True, nullable=False)
+    username = db.Column(db.Unicode(128), unique=True)
     password = db.Column(db.Unicode(255), nullable=False)
     per_page = db.Column(db.SmallInteger, default=10)
     sort_type = db.Column(db.Unicode(255), default=u'clicks')
-    date_created = db.Column(db.DateTime)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow())
     last_logged_in = db.Column(db.DateTime)
 
     marks = db.relationship('Mark', backref='owner', lazy='dynamic')
@@ -23,13 +25,34 @@ class User(db.Model):
         if email:
             self.email = email
         if password:
-            self.password = password
+            self.password = bcrypt.generate_password_hash(password)
 
+    """
+    Authentication
+    """
     @classmethod
     def by_email(self, uname):
         return self.query.filter(or_(User.username == uname,
                                      User.email == uname)).first()
 
+    def verify_password(self, password):
+        return bcrypt.check_password_hash(self.password, password)
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return True
+
+    def get_id(self):
+        return unicode(self.id)
+
+    """
+    Marks
+    """
     def my_marks(self):
         return Mark.query.filter(Mark.owner_id == self.id)
 
@@ -89,21 +112,6 @@ class User(db.Model):
     def tags_by_click(self, page):
         return self.my_tags().order_by(Tag.marks.any(Mark.clicks))\
                              .paginate(page, self.per_page, False)
-
-    def verify_password(self, password):
-        return bcrypt.check_password_hash(self.password, password)
-
-    def is_authenticated(self):
-        return True
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return True
-
-    def get_id(self):
-        return unicode(self.id)
 
     def __repr__(self):
         return '<User %r>' % (self.username)

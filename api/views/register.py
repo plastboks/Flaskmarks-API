@@ -6,24 +6,23 @@ from ..models import User
 
 
 class Register(Resource):
-    @auth.login_required
-    def post(self, todo_id):
+    def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('email',
-                            type=email,
+                            type=str,
                             required=True,
-                            help='Missing email',
-                            location='json')
+                            help='Missing email'
+                            )
         parser.add_argument('password',
                             type=str,
                             required=True,
-                            help='Missing password',
-                            location='json') 
+                            help='Missing password'
+                            ) 
         args = parser.parse_args()
         u = User(args.email, args.password)
         try:
             db.session.add(u)
             db.session.commit()
-            return {'status' : 'success'}, 200
+            return {'message' : 'User created'}, 201
         except Exception as detail:
-            return {'status' : 'error'}, 400
+            return {'message' : 'User exists'}, 409
