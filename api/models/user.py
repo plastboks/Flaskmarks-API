@@ -52,6 +52,26 @@ class User(db.Model):
     """
     Marks
     """
+    def create_mark(self, type, title, url, tags):
+        m = Mark(self.id)
+        m.type = type
+        m.title = title
+        m.url = url
+        # Tags
+        if tags:
+            tagslist = []
+            tagsparse = tags.strip().replace(',', ' ').split(' ')
+            for t in tagparse:
+                tag = Tag.check(t.lower())
+                if not tag:
+                    tag = Tag(t.lower())
+                    db.session.add(tag)
+                tagslist.append(tag)
+            m.tags.data = tagslist
+        db.session.add(m)
+        db.session.commit()
+        return m
+
     def my_marks(self):
         return Mark.query.filter(Mark.owner_id == self.id)
 
