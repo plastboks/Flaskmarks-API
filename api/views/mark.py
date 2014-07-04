@@ -44,7 +44,7 @@ class Mark(Resource):
 
     @auth.login_required
     @marshal_with(mark_fields)
-    def post(self, mark_id):
+    def post(self):
         post_parser = reqparse.RequestParser()
         post_parser.add_argument('type', type=str, required=True,
                                  help='Missing type')
