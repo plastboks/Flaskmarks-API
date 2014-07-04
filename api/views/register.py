@@ -10,6 +10,7 @@ user_fields = {
     'created': fields.DateTime,
 }
 
+
 class Register(Resource):
     @marshal_with(user_fields)
     def post(self):
@@ -30,5 +31,4 @@ class Register(Resource):
         if user:
             return user
         return abort(409, message="User with this email {} exists"
-                    .format(args.email))
-
+                     .format(args.email))
