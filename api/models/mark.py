@@ -42,11 +42,24 @@ class Mark(db.Model):
 
     def update_mark(self, args):
         for key, value in args.iteritems():
-            if value:
+            if value and key == 'tags':
+                self.update_tags(value)
+            elif value:
                 setattr(self, key, value)
         db.session.add(self)
         db.session.commit()
         return self
+
+    def update_tags(self, string):
+        tagslist = []
+        tagsparse = string.strip().replace(',', ' ').split(' ')
+        for t in tagsparse:
+            tag = Tag.check(t.lower())
+            if not tag:
+                tag = Tag(t.lower())
+                db.session.add(tag)
+            tagslist.append(tag)
+        self.tags = tagslist
 
     def __repr__(self):
         return '<Mark %r>' % (self.title)

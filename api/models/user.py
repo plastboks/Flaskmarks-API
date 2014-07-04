@@ -59,15 +59,7 @@ class User(db.Model):
         m.url = url
         # Tags
         if tags:
-            tagslist = []
-            tagsparse = tags.strip().replace(',', ' ').split(' ')
-            for t in tagsparse:
-                tag = Tag.check(t.lower())
-                if not tag:
-                    tag = Tag(t.lower())
-                    db.session.add(tag)
-                tagslist.append(tag)
-            m.tags.data = tagslist
+            m.update_tags(tags)
         db.session.add(m)
         db.session.commit()
         return m
