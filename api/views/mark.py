@@ -3,6 +3,7 @@
 from flask import g
 from flask.ext.restful import fields, marshal_with, reqparse, abort
 from ..core.setup import Resource, auth, db
+from ..core.customfields import TagList
 from ..models import Mark
 
 
@@ -11,7 +12,7 @@ mark_fields = {
     'type': fields.String,
     'title': fields.String,
     'url': fields.String,
-    'tags': fields.String,
+    'tags': TagList,
     'clicks': fields.Integer,
     'last_clicked': fields.DateTime,
     'created': fields.DateTime,

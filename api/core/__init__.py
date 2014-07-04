@@ -4,3 +4,4 @@
 from . import setup
 from . import error
 from . import auth
+from . import customfields
