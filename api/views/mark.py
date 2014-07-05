@@ -73,8 +73,15 @@ class Marks(Resource):
     @auth.login_required
     def get(self, page=1):
         get_parser = reqparse.RequestParser()
+        get_parser.add_argument('q', type=str)
+        get_parser.add_argument('tag', type=str)
+        get_parser.add_argument('type', type=str)
         get_parser.add_argument('sort', type=str)
         args = get_parser.parse_args()
-        marks = g.user.marks(page, args.sort)
+        marks = g.user.marks(page,
+                             q=args.q,
+                             type=args.type,
+                             tag=args.tag
+                             sort=args.sort)
         return {'marks': marshal(marks.items, mark_fields),
                 'pager': g.user.json_pager(marks)}

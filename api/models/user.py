@@ -73,12 +73,19 @@ class User(db.Model):
     def all_marks(self):
         return self.my_marks().all()
 
-    def marks(self, page, sort=False):
+    def marks(self, page, q=False, type=False, tag=False, sort=False):
         base = self.my_marks()
 
         if sort and sort in ['clicks', 'dateasc', 'datedesc']:
             self.sort_type = sort
-
+        if type and type in Mark.valid_types:
+            base = base.filter(Mark.type == type)
+        if q:
+            q = "%"+q+"%"
+            base = base.filter(or_(Mark.title.like(q),
+                                   Mark.url.like(q)))
+        if tag:
+            base = base.filter(Mark.tags.any(title=tag))
         if self.sort_type == u'clicks':
             base = base.order_by(desc(Mark.clicks))\
                        .order_by(desc(Mark.created))
@@ -113,17 +120,6 @@ class User(db.Model):
 
     def mark_last_created(self):
         return self.my_marks().order_by(desc(Mark.created)).first()
-
-    def q_marks_by_tag(self, tag, page):
-        return self.my_marks().filter(Mark.tags.any(title=tag))\
-                              .paginate(page, self.per_page, False)
-
-    def q_marks_by_string(self, page, string, marktype):
-        string = "%"+string+"%"
-        base = self.my_marks().filter(or_(Mark.title.like(string),
-                                          Mark.url.like(string)))
-        return base.order_by(desc(Mark.clicks))\
-                   .paginate(page, self.per_page, False)
 
     def q_marks_by_url(self, string):
         return self.my_marks().filter(Mark.url == string).first()
