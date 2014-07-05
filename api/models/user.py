@@ -91,8 +91,8 @@ class User(db.Model):
     def json_pager(self, obj):
         return {'page': obj.page,
                 'pages': obj.pages,
-                'next_num': obj.next_num,
-                'prev_num': obj.prev_num,
+                'next_num': obj.next_num if obj.has_next else False,
+                'prev_num': obj.prev_num if obj.has_prev else False,
                 'total': obj.total}
 
     def recent_marks(self, page, type):
