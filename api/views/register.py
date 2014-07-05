@@ -2,6 +2,7 @@
 
 from flask.ext.restful import fields, marshal_with, reqparse, abort
 from ..core.setup import Resource, auth, db
+from ..core.validators import validate_email
 from ..models import User
 
 user_fields = {
@@ -11,14 +12,21 @@ user_fields = {
 }
 
 
+def is_email(value):
+    try:
+        validate_email(value)
+        return value
+    except ValueError as e:
+        raise ValueError(e)
+
+
 class Register(Resource):
     @marshal_with(user_fields)
     def post(self):
         post_parser = reqparse.RequestParser()
         post_parser.add_argument('email',
-                                 type=str,
-                                 required=True,
-                                 help='Missing email'
+                                 type=is_email,
+                                 required=True
                                  )
         post_parser.add_argument('password',
                                  type=str,

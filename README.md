@@ -33,6 +33,10 @@ master (stable) branch, and one develop branch. The develop branch might contain
 unfinished code and/or wonky solutions. I will strive to make sure that code 
 merged into master is as stable as possible (given the small size of this application).
 
+Code
+====
+The validators.py file in api/core was forked from [django](https://github.com/django/django) and modified to fit my needs.
+
 Useful Links
 ============
 * [Flask RESTful](http://flask-restful.readthedocs.org/en/latest/)
