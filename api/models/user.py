@@ -73,8 +73,12 @@ class User(db.Model):
     def all_marks(self):
         return self.my_marks().all()
 
-    def marks(self, page):
+    def marks(self, page, sort=False):
         base = self.my_marks()
+
+        if sort and sort in ['clicks', 'dateasc', 'datedesc']:
+            self.sort_type = sort
+
         if self.sort_type == u'clicks':
             base = base.order_by(desc(Mark.clicks))\
                        .order_by(desc(Mark.created))

@@ -17,8 +17,9 @@ from . import views
 
 # routes
 core.setup.api.add_resource(views.Register, '/register')
-
 core.setup.api.add_resource(views.Mark,
                             '/mark', '/mark/<string:mark_id>',
                             endpoint='mark')
-core.setup.api.add_resource(views.Marks, '/marks/default/<int:page>')
+core.setup.api.add_resource(views.Marks,
+                            '/marks', '/marks/<int:page>',
+                            endpoint='marks')
