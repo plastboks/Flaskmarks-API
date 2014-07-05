@@ -81,19 +81,11 @@ class URLValidator(RegexValidator):
         try:
             super(URLValidator, self).__call__(value)
         except ValueError as e:
-            # Trivial case failed. Try for possible IDN domain
-            if value:
-                scheme, netloc, path, query, fragment = urlsplit(value)
-                try:
-                    netloc = netloc.encode('idna').decode('ascii')  # IDN -> ACE
-                except UnicodeError:  # invalid domain part
-                    raise e
-                url = urlunsplit((scheme, netloc, path, query, fragment))
-                super(URLValidator, self).__call__(url)
-            else:
-                raise
+            raise ValueError('Enter valid URL')
         else:
             url = value
+
+validate_url = URLValidator()
 
 
 def validate_integer(value):

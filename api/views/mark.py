@@ -4,6 +4,7 @@ from flask import g
 from flask.ext.restful import fields, marshal_with, reqparse, abort, marshal
 from ..core.setup import Resource, auth, db
 from ..core.customfields import TagList
+from ..core.validators import validate_url
 from ..models import Mark
 
 
@@ -21,9 +22,11 @@ mark_fields = {
 
 
 def is_url(value):
-    if 1 == 2:  # insert real url validator here !
-        raise ValueError("Input is not a valid URL")
-    return value
+    try:
+        validate_url(value)
+        return value
+    except ValueError as e:
+        raise ValueError(e)
 
 
 class Mark(Resource):
@@ -57,8 +60,7 @@ class Mark(Resource):
                                  help='Missing type')
         post_parser.add_argument('title', type=str, required=True,
                                  help='Missing title')
-        post_parser.add_argument('url', type=is_url, required=True,
-                                 help='Missing or invald url')
+        post_parser.add_argument('url', type=is_url, required=True)
         post_parser.add_argument('tags', type=str)
         args = post_parser.parse_args()
         return g.user.create_mark(args.type,
