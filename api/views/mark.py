@@ -81,7 +81,7 @@ class Marks(Resource):
         marks = g.user.marks(page,
                              q=args.q,
                              type=args.type,
-                             tag=args.tag
+                             tag=args.tag,
                              sort=args.sort)
         return {'marks': marshal(marks.items, mark_fields),
                 'pager': g.user.json_pager(marks)}
