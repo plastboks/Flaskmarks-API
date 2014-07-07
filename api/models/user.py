@@ -6,6 +6,7 @@ from datetime import datetime
 from ..core.setup import db, config, bcrypt
 from .tag import Tag
 from .mark import Mark
+from .apikey import ApiKey
 
 
 class User(db.Model):
@@ -20,6 +21,7 @@ class User(db.Model):
     last_logged_in = db.Column(db.DateTime)
 
     marks = db.relationship('Mark', backref='owner', lazy='dynamic')
+    apikeys = db.relationship('ApiKey', backref='owner', lazy='joined')
 
     def __init__(self, email=False, password=False):
         if email:
