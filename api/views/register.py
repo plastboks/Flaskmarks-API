@@ -3,12 +3,14 @@
 from flask.ext.restful import fields, marshal_with, reqparse, abort
 from ..core.setup import Resource, auth, db
 from ..core.validators import validate_email
+from ..core.customfields import ApiKeyList
 from ..models import User
 
 user_fields = {
     'id': fields.Integer,
     'email': fields.String,
     'created': fields.DateTime,
+    'api_keys': ApiKeyList
 }
 
 
