@@ -23,3 +23,6 @@ core.setup.api.add_resource(views.Mark,
 core.setup.api.add_resource(views.Marks,
                             '/marks', '/marks/<int:page>',
                             endpoint='marks')
+core.setup.api.add_resource(views.Tags,
+                            '/tags', '/tags/<int:page>',
+                            endpoint='tags')

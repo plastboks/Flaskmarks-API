@@ -2,3 +2,4 @@
 
 from .mark import Mark, Marks
 from .register import Register
+from .tag import Tags

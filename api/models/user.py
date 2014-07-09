@@ -72,9 +72,6 @@ class User(db.Model):
     def my_tags(self):
         return Tag.query.filter(Tag.marks.any(owner_id=self.id))
 
-    def all_marks(self):
-        return self.my_marks().all()
-
     def marks(self, page, q=False, type=False, tag=False, sort=False):
         base = self.my_marks()
 
@@ -114,8 +111,8 @@ class User(db.Model):
     def q_marks_by_url(self, string):
         return self.my_marks().filter(Mark.url == string).first()
 
-    def all_tags(self):
-        return self.my_tags().all()
+    def all_tags(self, page):
+        return self.my_tags().paginate(page, self.per_page, False)
 
     def save(self):
         if not User.by_email(self.email):
