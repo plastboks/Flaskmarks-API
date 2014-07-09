@@ -78,7 +78,7 @@ class User(db.Model):
     def marks(self, page, q=False, type=False, tag=False, sort=False):
         base = self.my_marks()
 
-        if sort and sort in ['clicks', 'dateasc', 'datedesc']:
+        if sort and sort in ['clicks', 'dateasc', 'datedesc', 'last_clicked']:
             self.sort_type = sort
         if type and type in Mark.valid_types:
             base = base.filter(Mark.type == type)
@@ -88,6 +88,10 @@ class User(db.Model):
                                    Mark.url.like(q)))
         if tag:
             base = base.filter(Mark.tags.any(title=tag))
+
+        if self.sort_type == u'last_clicked':
+            base = self.my_marks().filter(Mark.clicks > 0)\
+                                  .order_by(desc(Mark.last_clicked))
         if self.sort_type == u'clicks':
             base = base.order_by(desc(Mark.clicks))\
                        .order_by(desc(Mark.created))
@@ -104,34 +108,14 @@ class User(db.Model):
                 'prev_num': obj.prev_num if obj.has_prev else False,
                 'total': obj.total}
 
-    def recent_marks(self, page, type):
-        if type == 'added':
-            base = self.my_marks().order_by(desc(Mark.created))
-            return base.paginate(page, self.per_page, False)
-        if type == 'clicked':
-            base = self.my_marks().filter(Mark.clicks > 0)\
-                                  .order_by(desc(Mark.last_clicked))
-            return base.paginate(page, self.per_page, False)
-        return False
-
     def get_mark_by_id(self, id):
         return self.my_marks().filter(Mark.id == id).first()
-
-    def get_mark_type_count(self, type):
-        return self.my_marks().filter(Mark.type == type).count()
-
-    def mark_last_created(self):
-        return self.my_marks().order_by(desc(Mark.created)).first()
 
     def q_marks_by_url(self, string):
         return self.my_marks().filter(Mark.url == string).first()
 
     def all_tags(self):
         return self.my_tags().all()
-
-    def tags_by_click(self, page):
-        return self.my_tags().order_by(Tag.marks.any(Mark.clicks))\
-                             .paginate(page, self.per_page, False)
 
     def save(self):
         if not User.by_email(self.email):
