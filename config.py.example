@@ -18,6 +18,7 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'flaskmarks.sqlit
 
 """
 Security
+Read: http://flask.pocoo.org/docs/quickstart/#sessions for example generation of this string
 """
 SECRET_KEY = "REPLACE ME"
 
