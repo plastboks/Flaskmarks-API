@@ -7,6 +7,7 @@ from flask.ext.bcrypt import Bcrypt
 from flask.ext.debugtoolbar import DebugToolbarExtension
 from flask.ext.restful import Resource, Api
 from flask.ext.httpauth import HTTPBasicAuth
+from flask.ext.sslify import SSLify
 
 from .. import app
 
@@ -17,6 +18,11 @@ config = app.config
 Debug mode
 """
 app.debug = config['DEBUG_MODE']
+
+"""
+SSL
+"""
+sslify = SSLify(app)
 
 """
 Toolbar
@@ -48,7 +54,6 @@ bcrypt = Bcrypt(app)
 RESTful
 """
 api = Api(app, catch_all_404s=True)
-
 
 """
 Auth

@@ -8,3 +8,4 @@ flask-debugtoolbar
 flask-migrate
 flask-script
 flask-bcrypt
+flask-sslify
