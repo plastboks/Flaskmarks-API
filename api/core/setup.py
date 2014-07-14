@@ -4,7 +4,6 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.bcrypt import Bcrypt
-from flask.ext.debugtoolbar import DebugToolbarExtension
 from flask.ext.restful import Resource, Api
 from flask.ext.httpauth import HTTPBasicAuth
 from flask.ext.sslify import SSLify
@@ -23,11 +22,6 @@ app.debug = config['DEBUG_MODE']
 SSL
 """
 sslify = SSLify(app)
-
-"""
-Toolbar
-"""
-toolbar = DebugToolbarExtension(app)
 
 """
 Database ORM

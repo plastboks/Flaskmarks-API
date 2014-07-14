@@ -4,7 +4,6 @@ flask
 flask-httpauth
 flask-restful
 flask-sqlalchemy
-flask-debugtoolbar
 flask-migrate
 flask-script
 flask-bcrypt
