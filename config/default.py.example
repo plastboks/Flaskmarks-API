@@ -1,0 +1,15 @@
+"""
+Site settings
+"""
+CAN_REGISTER = True
+
+"""
+Bcrypt
+"""
+BCRYPT_LEVEL = 12
+
+"""
+Debugging
+"""
+DEBUG_MODE = True
+DEBUG_TB_INTERCEPT_REDIRECTS = False

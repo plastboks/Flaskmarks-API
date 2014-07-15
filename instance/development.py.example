@@ -2,11 +2,6 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 """
-Site settings
-"""
-CAN_REGISTER = True
-
-"""
 Database settings.
 """
 # SQLiTE
@@ -15,15 +10,3 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'flaskmarks.sqlit
 # SQLALCHEMY_DATABASE_URI = 'mysql://username:password@server/db'
 # PostgreSQL
 # SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@server/db'
-
-"""
-Security
-Read: http://flask.pocoo.org/docs/quickstart/#sessions for example generation of this string
-"""
-SECRET_KEY = "REPLACE ME"
-
-"""
-Debugging
-"""
-DEBUG_MODE = True
-DEBUG_TB_INTERCEPT_REDIRECTS = False
