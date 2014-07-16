@@ -1,7 +1,6 @@
 Flaskmarks-API
 ==============
-
-Flaskmarks REST API
+Flaskmarks RESTful API. This Flaskmarks API is meant to be the backend to flaskmarks in the future... As a consequence the Flaskmarks repository have no planned feature implementations and will most likely migrate over to a web client for this API.
 
 Description
 ===========
@@ -10,7 +9,9 @@ See Flaskmarks repository.
 Install
 =======
 * Create and activate a python virtualenv.
-* make a copy of config.py.example to config.py and edit accordingly.
+* make a copy of config/default.py.example to config/default.py and edit accordingly.
+* make a copy of instance/config.py.example to instance/config.py and edit accordingly.
+* make a instance/{production, staging, develop, etc}.py and setup database access.
 * run: `pip install -r requirements.txt`.
 * run: `python run.py db init`
 * run: `python run.py db migrate`
