@@ -73,3 +73,6 @@ instance/*
 # config
 config/*
 !config/*.example
+
+# unittests
+cover

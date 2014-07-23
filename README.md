@@ -27,6 +27,11 @@ Package updates
 ===============
 * run: `pip install --upgrade -r requirements.txt`
 
+
+Testing
+=======
+* run: `nosetests --with-coverage --cover-package=api --cover-erase`
+
 Branches
 ========
 There will at any given point be at least two branches in this repository. One
