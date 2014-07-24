@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 Database settings.
 """
 # SQLiTE
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'development.sqlite')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'staging.sqlite')
 # MySQL
 # SQLALCHEMY_DATABASE_URI = 'mysql://username:password@server/db'
 # PostgreSQL
@@ -14,8 +14,7 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'development.sqli
 """
 Debugging
 """
-DEBUG_MODE = True
-DEBUG_TB_INTERCEPT_REDIRECTS = False
+DEBUG_MODE = False
 
 """
 Site Settings

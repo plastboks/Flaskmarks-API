@@ -1,15 +1,6 @@
 """
-Site settings
+Security
+Read: http://flask.pocoo.org/docs/quickstart/#sessions for example generation of this string
 """
-CAN_REGISTER = True
-
-"""
-Bcrypt
-"""
+SECRET_KEY = "REPLACE ME"
 BCRYPT_LEVEL = 12
-
-"""
-Debugging
-"""
-DEBUG_MODE = True
-DEBUG_TB_INTERCEPT_REDIRECTS = False

@@ -10,12 +10,12 @@ Install
 =======
 * Create and activate a python virtualenv.
 * make a copy of config/default.py.example to config/default.py and edit accordingly.
-* make a copy of instance/config.py.example to instance/config.py and edit accordingly.
-* make a instance/{production, staging, develop, etc}.py and setup database access.
+* make a copy of config/environment.py.example to config/environment.py and edit accordingly.
 * run: `pip install -r requirements.txt`.
 * run: `python run.py db init`
 * run: `python run.py db migrate`
 * run: `python run.py db upgrade`
+* set: `export APP_CONFIG_FILE=$PWD/config/environment.py`
 * run: `python run.py runserver`
 
 Upgrade
