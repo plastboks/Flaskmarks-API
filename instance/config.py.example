@@ -1,5 +1,0 @@
-"""
-Security
-Read: http://flask.pocoo.org/docs/quickstart/#sessions for example generation of this string
-"""
-SECRET_KEY = "REPLACE ME"
