@@ -12,3 +12,4 @@ flask-sslify
 # uniitesting
 nose
 coverage
+webtest
