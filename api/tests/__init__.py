@@ -1,3 +1,4 @@
 # package
 
-from .base import FlaskrTestCase
+from .base import BaseTest
+from .models import UserModelTests
