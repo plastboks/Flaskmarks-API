@@ -1,4 +1,3 @@
 # package
 
-import unittest
-from .base import BaseTestCase
+from .base import FlaskrTestCase

@@ -1,29 +1,21 @@
+# api/test/base.py
+
+import os
 import unittest
-import cgi
+import tempfile
 
-from webtest import TestApp
-from webtest import Upload
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from ..core.setup import app
 
-from webob import multidict
-
-from ..core.setup import db
-
-
-class BaseTestCase(unittest.TestCase):
-    """ Base class used for all unittests. This sets up the.
-    database and so forth.
-    """
-    @classmethod
-    def setUpClass(cls):
-        cls.engine = create_engine('sqlite://')
+class FlaskrTestCase(unittest.TestCase):
 
     def setUp(self):
-        db.configure(bind=self.engine)
-        self.session = db
-        self.config = testing.setUp()
+        self.db_fd, app.config['DATABASE'] = tempfile.mkstemp()
+        app.config['TESTING'] = True
+        self.app = app.test_client()
 
     def tearDown(self):
-        testing.tearDown()
-        self.session.remove()
+        os.close(self.db_fd)
+        os.unlink(flaskr.app.config['DATABASE'])
+
+if __name__ == '__main__':
+    unittest.main()
