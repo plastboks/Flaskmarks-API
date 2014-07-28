@@ -11,6 +11,7 @@ class BaseTest(TestCase):
     TESTING = True
 
     def create_app(self):
+        self.db = db
         # pass in test configuration
         return app
 

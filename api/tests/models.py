@@ -31,7 +31,7 @@ class UserModelTests(BaseTest):
         instance = self._makeOne(email='user2@email.com',
                                  password='1234',
                                  )
-        db.session.add(instance)
+        self.db.session.add(instance)
         q = self._getTargetClass().by_email('user2@email.com')
         self.assertEqual(q.email, 'user2@email.com')
 
@@ -40,7 +40,7 @@ class UserModelTests(BaseTest):
                                  password='1234',
                                  id=1000,
                                  )
-        db.session.add(instance)
+        self.db.session.add(instance)
         q = self._getTargetClass().by_id(1000)
         self.assertEqual(q.email, 'user3@email.com')
 
