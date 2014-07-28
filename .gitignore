@@ -73,6 +73,7 @@ instance/*
 # config
 config/*
 !config/*.example
+!config/__init__.py
 
 # unittests
 cover
