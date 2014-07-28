@@ -1,6 +1,6 @@
 """
 Security
-Read: http://flask.pocoo.org/docs/quickstart/#sessions for example generation of this string
+Replace with: `python -c "import uuid;print uuid.uuid4()"`
 """
-SECRET_KEY = "REPLACE ME"
+SECRET_KEY = "REPLACE_ME"
 BCRYPT_LEVEL = 12
