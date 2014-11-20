@@ -11,12 +11,20 @@ Install
 * Create and activate a python virtualenv.
 * make a copy of config/default.py.example to config/default.py and edit accordingly.
 * make a copy of config/environment.py.example to config/environment.py and edit accordingly.
+* run: `sed -i s/REPLACE_ME/$(python -c "import uuid;print uuid.uuid4()")/g config/default.py`
 * run: `pip install -r requirements.txt`.
+* set: `export APP_CONFIG_FILE=$PWD/config/environment.py`
 * run: `python run.py db init`
 * run: `python run.py db migrate`
 * run: `python run.py db upgrade`
-* set: `export APP_CONFIG_FILE=$PWD/config/environment.py`
 * run: `python run.py runserver`
+
+Docker
+======
+Now with a docker automated build. See [the registry](https://registry.hub.docker.com/u/plastboks/flaskmarks-api/) for details.
+* change directory into `./docker`
+* run: `build` (need superuser)
+* run: `debug` or `daemon` (need superuser)
 
 Upgrade
 =======
