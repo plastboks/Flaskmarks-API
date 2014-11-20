@@ -1,5 +1,6 @@
 # api/tests/base.py
 
+from flask import Flask
 from flask.ext.testing import TestCase
 import tempfile
 
@@ -12,13 +13,11 @@ class BaseTest(TestCase):
     TESTING = True
 
     def create_app(self):
-        self.db = db
-        # pass in test configuration
-        return app
+        return Flask(self)
 
     def setUp(self):
-        self.db.create_all()
+        db.create_all()
 
     def tearDown(self):
-        self.db.session.remove()
-        self.db.drop_all()
+        db.session.remove()
+        db.drop_all()
