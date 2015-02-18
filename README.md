@@ -35,10 +35,33 @@ Package updates
 ===============
 * run: `pip install --upgrade -r requirements.txt`
 
+Routes
+======
+Current routes
+* GET /register
+* POST /mark
+* {GET,PUT} /mark/id
+* GET /marks
+* GET /tags
+
+Authentication
+=============
+Basic auth only.
 
 Testing
 =======
 * run: `nosetests --with-coverage --cover-package=api --cover-erase`
+
+CURLing
+=======
+Some crude CURL tests
+* register: `curl -X POST -v http://localhost:5000/register -d "user=test&email=post@example.net&password=1234"`
+* new mark: `curl -X POST -v --basic -u "post@example.net:1234" http://localhost:5000/mark -d "type=bookmark&title=test&url=http://example.org"`
+* new mark: `curl -X POST -v --basic -u "post@example.net:1234" http://localhost:5000/mark -d "type=bookmark&title=test&tags=1,2,3&url=http://example.org"`
+* update mark: curl -X PUT -v --basic -u "post@example.net:1234" http://localhost:5000/mark/3 -d "title=horse"
+* delete: `not implemented`
+* all marks: `curl -X GET -v --basic -u "post@example.net:1234" http://localhost:5000/marks`
+
 
 Branches
 ========
