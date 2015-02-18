@@ -55,12 +55,30 @@ Testing
 CURLing
 =======
 Some crude CURL tests
-* register: `curl -X POST -v http://localhost:5000/register -d "user=test&email=post@example.net&password=1234"`
-* new mark: `curl -X POST -v --basic -u "post@example.net:1234" http://localhost:5000/mark -d "type=bookmark&title=test&url=http://example.org"`
-* new mark: `curl -X POST -v --basic -u "post@example.net:1234" http://localhost:5000/mark -d "type=bookmark&title=test&tags=1,2,3&url=http://example.org"`
-* update mark: curl -X PUT -v --basic -u "post@example.net:1234" http://localhost:5000/mark/3 -d "title=horse"
-* delete: `not implemented`
-* all marks: `curl -X GET -v --basic -u "post@example.net:1234" http://localhost:5000/marks`
+* register:
+```bash
+curl -X POST -v http://localhost:5000/register -d "user=test&email=post@example.net&password=1234"
+```
+* new mark:
+```bash
+curl -X POST -v --basic -u "post@example.net:1234" http://localhost:5000/mark -d "type=bookmark&title=test&url=http://example.org"
+```
+* new mark:
+```bash
+curl -X POST -v --basic -u "post@example.net:1234" http://localhost:5000/mark -d "type=bookmark&title=test&tags=1,2,3&url=http://example.org"
+```
+* update mark:
+```bash
+curl -X PUT -v --basic -u "post@example.net:1234" http://localhost:5000/mark/3 -d "title=horse"
+```
+* delete:
+```bash
+not implemented
+```
+* all marks:
+```bash
+curl -X GET -v --basic -u "post@example.net:1234" http://localhost:5000/marks
+```
 
 
 Branches
