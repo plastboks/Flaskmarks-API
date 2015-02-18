@@ -10,7 +10,7 @@ user_fields = {
     'id': fields.Integer,
     'email': fields.String,
     'created': fields.DateTime,
-    'api_keys': ApiKeyList
+    'apikeys': ApiKeyList
 }
 
 
@@ -39,6 +39,7 @@ class Register(Resource):
         u = User(args.email, args.password)
         user = u.save()
         if user:
+            user.new_apikey("master")
             return user
         return abort(409, message="User with this email {} exists"
                      .format(args.email))

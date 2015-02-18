@@ -11,9 +11,11 @@ class ApiKey(db.Model):
     app = db.Column(db.Unicode(256), nullable=False)
     value = db.Column(db.Unicode(512), nullable=False)
 
-    def __init__(self, app, value):
+    def __init__(self, owner_id, app):
+        self.owner_id = owner_id
         self.app = app
-        self.title = value
+        # experimental
+        self.value = "REPLACE_ME"
 
     def __repr__(self):
         return '<ApiKey %d>' % (self.id)

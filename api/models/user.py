@@ -114,6 +114,12 @@ class User(db.Model):
     def all_tags(self, page):
         return self.my_tags().paginate(page, self.per_page, False)
 
+    def new_apikey(self, title):
+        ak = ApiKey(self.id, title)
+        db.session.add(ak)
+        db.session.commit()
+        return ak
+
     def save(self):
         if not User.by_email(self.email):
             db.session.add(self)
