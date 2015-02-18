@@ -2,7 +2,7 @@
 
 from sqlalchemy import and_, or_, desc
 from ..core.setup import db, config
-
+import uuid
 
 class ApiKey(db.Model):
     __tablename__ = 'apikeys'
@@ -14,8 +14,7 @@ class ApiKey(db.Model):
     def __init__(self, owner_id, app):
         self.owner_id = owner_id
         self.app = app
-        # experimental
-        self.value = "REPLACE_ME"
+        self.value = uuid.uuid4().hex
 
     def __repr__(self):
         return '<ApiKey %d>' % (self.id)
