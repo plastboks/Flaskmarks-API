@@ -1,6 +1,6 @@
 # api/core/auth.py
 
-from flask import g
+from flask import g, make_response, jsonify
 from .setup import auth
 from ..models import User
 
@@ -12,3 +12,7 @@ def verify_password(username, password):
         return False
     g.user = u
     return True
+
+@auth.error_handler
+def unauthorized():
+    return make_response(jsonify({'error': 'Unauthorized access'}), 401)
