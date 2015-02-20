@@ -57,19 +57,46 @@ CURLing
 Some crude CURL tests
 * register:
 ```bash
-curl -X POST -v http://localhost:5000/register -d "user=test&email=post@example.net&password=1234"
+curl -X POST -v -d "user=test&email=post@example.net&password=1234" \
+         http://localhost:5000/register
+
+curl -X POST -v -H "Content-Type: application/json" \
+         -d '{"user":"test", "email":"post@example.net", "password":"1234"}' \
+         http://localhost:5000/register
 ```
 * new mark:
 ```bash
-curl -X POST -v --basic -u "post@example.net:1234" http://localhost:5000/mark -d "type=bookmark&title=test&url=http://example.org"
+curl -X POST -v --basic -u "post@example.net:1234" \
+         -d "type=bookmark&title=test&url=http://example.org" \
+         http://localhost:5000/mark
+
+curl -X POST -v -H "Content-Type: application/json" \
+         --basic -u "post@example23.net:1234" \
+         -d '{"type":"bookmark", "title":"test", "url":"http://example.net"}' \
+         http://localhost:5000/mark
 ```
 * new mark:
 ```bash
-curl -X POST -v --basic -u "post@example.net:1234" http://localhost:5000/mark -d "type=bookmark&title=test&tags=1,2,3&url=http://example.org"
+curl -X POST -v --basic -u "post@example.net:1234" \
+         -d "type=bookmark&title=test&tags=1,2,3&url=http://example.org" \
+         http://localhost:5000/mark
+
+curl -X POST -v -H "Content-Type: application/json" \
+         --basic -u "post@example23.net:1234" \
+         -d '{"type":"bookmark", "title":"test", "url":"http://example.net"}' \
+         http://localhost:5000/mark 
 ```
 * update mark:
 ```bash
-curl -X PUT -v --basic -u "post@example.net:1234" http://localhost:5000/mark/3 -d "title=horse"
+curl -X PUT -v --basic -u "post@example.net:1234" \
+         -d "title=horse" \
+         http://localhost:5000/mark/3 
+
+curl -X PUT -v -H "Content-Type: application/json" \
+         --basic -u "post@example23.net:1234" \
+         -d '{"title":"horse"}' \
+         http://localhost:5000/mark/3
+
 ```
 * delete:
 ```bash
