@@ -38,7 +38,10 @@ Package updates
 Routes
 ======
 Current routes
-* GET /register
+* POST /register
+* GET /token/key
+* POST /token
+* GET /tokens
 * POST /mark
 * {GET,PUT} /mark/id
 * GET /marks
@@ -46,7 +49,7 @@ Current routes
 
 Authentication
 =============
-Basic auth only.
+Basic auth (using email+password or tokens)
 
 Testing
 =======
@@ -112,7 +115,6 @@ curl -X GET -v --basic -u "post@example.net:1234" http://localhost:5000/marks
 ```bash
 curl -X GET -v --basic -u "tokenkey:unused" http://localhost:5000/marks
 ```
-
 
 Branches
 ========
