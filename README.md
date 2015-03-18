@@ -64,6 +64,20 @@ curl -X POST -v -H "Content-Type: application/json" \
          -d '{"user":"test", "email":"post@example.net", "password":"1234"}' \
          http://localhost:5000/register
 ```
+* tokens:
+```bash
+curl -X GET -v --basic -u "post@example.net:1234" \
+         http://localhost:5000/tokens
+
+curl -X GET -v --basic -u "post@example.net:1234" \
+         https://localhost:5000/token/master
+```
+* new token:
+```bash
+curl -X POST -v --basic -u "post@example.net:1234" \
+         -d "key=apple" \
+         https://localhost:5000/token
+```
 * new mark:
 ```bash
 curl -X POST -v --basic -u "post@example.net:1234" \

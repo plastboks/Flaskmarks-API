@@ -36,6 +36,10 @@ class User(db.Model):
     def by_email(self, email):
         return self.query.filter(User.email == email).first()
 
+    @staticmethod
+    def verify_api_key(token):
+        return 1
+
     def verify_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
 
@@ -69,6 +73,9 @@ class User(db.Model):
     def my_marks(self):
         return Mark.query.filter(Mark.owner_id == self.id)
 
+    def my_apikeys(self):
+        return ApiKey.query.filter(ApiKey.owner_id == self.id)
+
     def my_tags(self):
         return Tag.query.filter(Tag.marks.any(owner_id=self.id))
 
@@ -98,6 +105,9 @@ class User(db.Model):
             base = base.order_by(desc(Mark.created))
         return base.paginate(page, self.per_page, False)
 
+    def tokens(self, page):
+        return self.my_apikeys().paginate(page, self.per_page, False)
+
     def json_pager(self, obj):
         return {'page': obj.page,
                 'pages': obj.pages,
@@ -107,6 +117,9 @@ class User(db.Model):
 
     def get_mark_by_id(self, id):
         return self.my_marks().filter(Mark.id == id).first()
+
+    def get_token_by_key(self, key):
+        return self.my_apikeys().filter(ApiKey.key == key).first()
 
     def q_marks_by_url(self, string):
         return self.my_marks().filter(Mark.url == string).first()

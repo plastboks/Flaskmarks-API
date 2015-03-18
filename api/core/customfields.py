@@ -10,4 +10,4 @@ class TagList(fields.Raw):
 
 class ApiKeyList(fields.Raw):
     def format(self, value):
-        return [([t.app, t.value]) for t in value]
+        return [([t.key, t.value]) for t in value]
