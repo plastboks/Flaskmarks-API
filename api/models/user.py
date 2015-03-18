@@ -1,5 +1,7 @@
 # api/models/user.py
 
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import SignatureExpired, BadSignature
 from sqlalchemy import or_, desc, asc, func
 from sqlalchemy.orm import aliased
 from datetime import datetime
@@ -38,7 +40,18 @@ class User(db.Model):
 
     @staticmethod
     def verify_api_key(token):
-        return 1
+        s = Serializer(config['SECRET_KEY'])
+        try:
+            s.loads(token)
+        except SignatureExpired:
+            return None
+        except BadSignature:
+            return None
+
+        t = ApiKey.query.filter(ApiKey.value == token).first()
+        if t:
+            return t.owner
+        return None
 
     def verify_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
@@ -73,11 +86,11 @@ class User(db.Model):
     def my_marks(self):
         return Mark.query.filter(Mark.owner_id == self.id)
 
-    def my_apikeys(self):
-        return ApiKey.query.filter(ApiKey.owner_id == self.id)
+    def get_mark_by_id(self, id):
+        return self.my_marks().filter(Mark.id == id).first()
 
-    def my_tags(self):
-        return Tag.query.filter(Tag.marks.any(owner_id=self.id))
+    def q_marks_by_url(self, string):
+        return self.my_marks().filter(Mark.url == string).first()
 
     def marks(self, page, q=False, type=False, tag=False, sort=False):
         base = self.my_marks()
@@ -105,33 +118,42 @@ class User(db.Model):
             base = base.order_by(desc(Mark.created))
         return base.paginate(page, self.per_page, False)
 
+    """
+    Tokens / ApiKeys
+    """
+    def create_apikey(self, title):
+        ak = ApiKey(self.id, title)
+        db.session.add(ak)
+        db.session.commit()
+        return ak
+
+    def my_apikeys(self):
+        return ApiKey.query.filter(ApiKey.owner_id == self.id)
+
     def tokens(self, page):
         return self.my_apikeys().paginate(page, self.per_page, False)
 
+    def get_token_by_key(self, key):
+        return self.my_apikeys().filter(ApiKey.key == key).first()
+
+    """
+    Tags
+    """
+    def my_tags(self):
+        return Tag.query.filter(Tag.marks.any(owner_id=self.id))
+
+    def all_tags(self, page):
+        return self.my_tags().paginate(page, self.per_page, False)
+
+    """
+    Generics
+    """
     def json_pager(self, obj):
         return {'page': obj.page,
                 'pages': obj.pages,
                 'next_num': obj.next_num if obj.has_next else False,
                 'prev_num': obj.prev_num if obj.has_prev else False,
                 'total': obj.total}
-
-    def get_mark_by_id(self, id):
-        return self.my_marks().filter(Mark.id == id).first()
-
-    def get_token_by_key(self, key):
-        return self.my_apikeys().filter(ApiKey.key == key).first()
-
-    def q_marks_by_url(self, string):
-        return self.my_marks().filter(Mark.url == string).first()
-
-    def all_tags(self, page):
-        return self.my_tags().paginate(page, self.per_page, False)
-
-    def new_apikey(self, title):
-        ak = ApiKey(self.id, title)
-        db.session.add(ak)
-        db.session.commit()
-        return ak
 
     def save(self):
         if not User.by_email(self.email):

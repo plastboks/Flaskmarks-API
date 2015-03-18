@@ -10,8 +10,10 @@ from ..models import Mark
 
 token_fields = {
     'key': fields.String,
-    'value': fields.String
+    'value': fields.String,
+    'expires': fields.DateTime
 }
+
 
 class Token(Resource):
     @auth.login_required
@@ -29,8 +31,7 @@ class Token(Resource):
         post_parser.add_argument('key', type=str, required=True,
                                  help='Missing key')
         args = post_parser.parse_args()
-        return g.user.new_apikey(args.key)
-
+        return g.user.create_apikey(args.key)
 
 
 class Tokens(Resource):

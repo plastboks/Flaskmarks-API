@@ -39,7 +39,7 @@ class Register(Resource):
         u = User(args.email, args.password)
         user = u.save()
         if user:
-            user.new_apikey("master")
+            user.create_apikey("master")
             return user
         return abort(409, message="User with this email {} exists"
                      .format(args.email))
