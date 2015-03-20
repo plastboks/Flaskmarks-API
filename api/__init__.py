@@ -16,7 +16,8 @@ from . import models
 from . import views
 
 # routes
-core.setup.api.add_resource(views.Register, '/register')
+if core.setup.config['CAN_REGISTER']:
+    core.setup.api.add_resource(views.Register, '/register')
 
 core.setup.api.add_resource(views.Token,
                             '/token', '/token/<string:key>',
