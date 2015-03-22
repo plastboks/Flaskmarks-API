@@ -48,6 +48,7 @@ class Mark(db.Model):
                 self.update_tags(value)
             elif value:
                 setattr(self, key, value)
+        self.updated = dt.utcnow()
         db.session.add(self)
         db.session.commit()
         return self
