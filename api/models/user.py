@@ -42,7 +42,7 @@ class User(db.Model):
     @staticmethod
     def verify_api_key(token):
         t = ApiKey.query.filter(ApiKey.value == token).first()
-        if t:
+        if t and t.expires > datetime.utcnow():
             return t.owner
         return None
 
