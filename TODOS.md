@@ -1,7 +1,7 @@
 Todos
 =====
 
-* Finish api key authentication.
+* Secure API key authentication.
 * Profile request.
 * Search request.
-* Unit tests.
+* Unit tests (consider pytest).
