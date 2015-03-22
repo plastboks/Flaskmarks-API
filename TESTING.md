@@ -22,6 +22,19 @@ curl -X POST -v -H "Content-Type: application/json" \
          -d '{"user":"test", "email":"post@example.net", "password":"1234"}' \
          http://localhost:5000/register
 ```
+```json
+{
+    "apikeys": [
+        [
+            "master", 
+            "..."
+        ]
+    ], 
+    "created": "Sun, 22 Mar 2015 18:11:04 -0000", 
+    "email": "test@example.net", 
+    "id": 1
+}
+```
 * tokens:
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
@@ -47,6 +60,23 @@ curl -X POST -v -H "Content-Type: application/json" \
          -d '{"type":"bookmark", "title":"test", "url":"http://example.net"}' \
          http://localhost:5000/mark 
 ```
+```json
+{
+    "clicks": 0, 
+    "created": "Sun, 22 Mar 2015 18:11:06 -0000", 
+    "id": 18, 
+    "last_clicked": null, 
+    "tags": [
+        "tag1", 
+        "tag2", 
+        "tag3"
+    ], 
+    "title": "updated title", 
+    "type": "bookmark", 
+    "updated": null, 
+    "url": "http://example.org"
+}
+```
 * update mark:
 ```bash
 curl -X PUT -v --basic -u "post@example.net:1234" \
@@ -65,6 +95,34 @@ not implemented
 * all marks:
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" http://localhost:5000/marks
+```
+```json
+{
+    "marks": [
+        {
+            "clicks": 0, 
+            "created": "Sun, 22 Mar 2015 18:11:06 -0000", 
+            "id": 18, 
+            "last_clicked": null, 
+            "tags": [
+                "tag1", 
+                "tag2", 
+                "tag3"
+            ], 
+            "title": "updated title", 
+            "type": "bookmark", 
+            "updated": null, 
+            "url": "http://example.org"
+        }
+    ], 
+    "pager": {
+        "next_num": false, 
+        "page": 1, 
+        "pages": 1, 
+        "prev_num": false, 
+        "total": 1
+    }
+}
 ```
 * using token auth
 ```bash
