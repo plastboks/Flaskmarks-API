@@ -1,5 +1,4 @@
-Routes
-======
+#Routes
 Current routes
 * POST /register
 * GET /token/key
@@ -10,10 +9,11 @@ Current routes
 * GET /marks
 * GET /tags
 
-CURLing
-=======
+#CURLing
 Some crude CURL tests
-* register:
+
+##Register
+
 ```bash
 curl -X POST -v -d "user=test&email=post@example.net&password=1234" \
          http://localhost:5000/register
@@ -35,7 +35,9 @@ curl -X POST -v -H "Content-Type: application/json" \
     "id": 1
 }
 ```
-* tokens:
+
+##Tokens
+
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
          http://localhost:5000/tokens
@@ -43,13 +45,17 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 curl -X GET -v --basic -u "post@example.net:1234" \
          https://localhost:5000/token/master
 ```
-* new token:
+
+##New token
+
 ```bash
 curl -X POST -v --basic -u "post@example.net:1234" \
          -d "key=apple" \
          https://localhost:5000/token
 ```
-* new mark:
+
+##New mark
+
 ```bash
 curl -X POST -v --basic -u "post@example.net:1234" \
          -d "type=bookmark&title=test&tags=1,2,3&url=http://example.org" \
@@ -77,7 +83,9 @@ curl -X POST -v -H "Content-Type: application/json" \
     "url": "http://example.org"
 }
 ```
-* update mark:
+
+##Update mark
+
 ```bash
 curl -X PUT -v --basic -u "post@example.net:1234" \
          -d "title=horse" \
@@ -88,11 +96,15 @@ curl -X PUT -v -H "Content-Type: application/json" \
          -d '{"title":"horse"}' \
          http://localhost:5000/mark/3
 ```
-* delete:
+
+##Delete mark
+
 ```bash
 not implemented
 ```
-* all marks:
+
+##All marks
+
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" http://localhost:5000/marks
 ```
@@ -124,7 +136,8 @@ curl -X GET -v --basic -u "post@example.net:1234" http://localhost:5000/marks
     }
 }
 ```
-* using token auth
+
+##Using token auth
 ```bash
 curl -X GET -v --basic -u "tokenkey:unused" http://localhost:5000/marks
 ```
