@@ -81,7 +81,11 @@ class User(db.Model):
                                       Mark.active == 1))
 
     def get_mark_by_id(self, id):
-        return self.my_marks().filter(Mark.id == id).first()
+        mark = self.my_marks().filter(and_(Mark.id == id,
+                                           Mark.active == 1)).first()
+        if mark:
+            mark.increment_clicks()
+            return mark
 
     def q_marks_by_url(self, string):
         return self.my_marks().filter(Mark.url == string).first()

@@ -63,5 +63,11 @@ class Mark(db.Model):
             tagslist.append(tag)
         self.tags = tagslist
 
+    def increment_clicks(self):
+        self.clicks += 1
+        self.last_clicked = dt.utcnow()
+        db.session.add(self)
+        db.session.commit()
+
     def __repr__(self):
         return '<Mark %r>' % (self.title)
