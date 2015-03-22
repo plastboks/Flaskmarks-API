@@ -67,6 +67,15 @@ class Mark(Resource):
                                   args.title,
                                   args.url,
                                   args.tags)
+    @auth.login_required
+    @marshal_with(mark_fields)
+    def delete(self, mark_id):
+        mark = g.user.get_mark_by_id(mark_id)
+        if mark:
+            mark.delete()
+            return mark
+        return abort(410, message="Mark {} doesn't exist".format(mark_id))
+
 
 
 class Marks(Resource):

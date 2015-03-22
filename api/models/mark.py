@@ -69,5 +69,10 @@ class Mark(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def delete(self):
+        self.active = 0
+        db.session.add(self)
+        db.session.commit()
+
     def __repr__(self):
         return '<Mark %r>' % (self.title)
