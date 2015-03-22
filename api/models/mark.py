@@ -7,16 +7,18 @@ from datetime import datetime as dt
 from ..core.setup import db, config
 from .tag import Tag
 
-ass_tbl = db.Table('marks_tags', db.metadata,
-                   db.Column('left_id', db.Integer, db.ForeignKey('marks.id')),
-                   db.Column('right_id', db.Integer, db.ForeignKey('tags.id'))
+ass_tbl = db.Table('MarkTag', db.metadata,
+                   db.Column('left_id', db.Integer, db.ForeignKey('Mark.id')),
+                   db.Column('right_id', db.Integer, db.ForeignKey('Tag.id'))
                    )
 
 
 class Mark(db.Model):
-    __tablename__ = 'marks'
+    __tablename__ = 'Mark'
+
     id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('User.id'))
+    active = db.Column(db.Integer, default=1)
     type = db.Column(db.Unicode(255), nullable=False)
     title = db.Column(db.Unicode(255), nullable=False)
     url = db.Column(db.Unicode(512), nullable=False)
@@ -28,7 +30,7 @@ class Mark(db.Model):
     tags = relationship('Tag',
                         secondary=ass_tbl,
                         lazy='joined',
-                        backref='marks')
+                        backref='Mark')
 
     valid_types = ['bookmark', 'feed', 'youtube']
     valid_feed_types = ['feed', 'youtube']

@@ -1,8 +1,6 @@
 # api/models/user.py
 
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from itsdangerous import SignatureExpired, BadSignature
-from sqlalchemy import or_, desc, asc, func
+from sqlalchemy import or_, and_, desc, asc, func
 from sqlalchemy.orm import aliased
 from datetime import datetime
 from ..core.setup import db, config, bcrypt
@@ -12,8 +10,10 @@ from .apikey import ApiKey
 
 
 class User(db.Model):
-    __tablename__ = 'users'
+    __tablename__ = 'User'
+
     id = db.Column(db.Integer, primary_key=True)
+    active = db.Column(db.Integer, default=1)
     email = db.Column(db.Unicode(255), unique=True, nullable=False)
     username = db.Column(db.Unicode(128), unique=True)
     password = db.Column(db.Unicode(255), nullable=False)
@@ -36,18 +36,11 @@ class User(db.Model):
     """
     @classmethod
     def by_email(self, email):
-        return self.query.filter(User.email == email).first()
+        return self.query.filter(and_(User.email == email,
+                                      User.active == 1)).first()
 
     @staticmethod
     def verify_api_key(token):
-        s = Serializer(config['SECRET_KEY'])
-        try:
-            s.loads(token)
-        except SignatureExpired:
-            return None
-        except BadSignature:
-            return None
-
         t = ApiKey.query.filter(ApiKey.value == token).first()
         if t:
             return t.owner
@@ -60,7 +53,7 @@ class User(db.Model):
         return True
 
     def is_active(self):
-        return True
+        return self.active == 1
 
     def is_anonymous(self):
         return True
@@ -84,7 +77,8 @@ class User(db.Model):
         return m
 
     def my_marks(self):
-        return Mark.query.filter(Mark.owner_id == self.id)
+        return Mark.query.filter(and_(Mark.owner_id == self.id,
+                                      Mark.active == 1))
 
     def get_mark_by_id(self, id):
         return self.my_marks().filter(Mark.id == id).first()

@@ -3,13 +3,14 @@
 from sqlalchemy import and_, or_, desc
 from datetime import datetime, timedelta
 from ..core.setup import db, config
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import uuid
 
 
 class ApiKey(db.Model):
-    __tablename__ = 'apikeys'
+    __tablename__ = 'ApiKey'
+
     id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('User.id'))
     key = db.Column(db.Unicode(256), nullable=False)
     value = db.Column(db.Unicode(512), nullable=False)
     expires = db.Column(db.DateTime)
@@ -20,8 +21,7 @@ class ApiKey(db.Model):
     def __init__(self, owner_id, key):
         self.owner_id = owner_id
         self.key = key
-        s = Serializer(config['SECRET_KEY'], expires_in=self.default_expi)
-        self.value = s.dumps({'user': owner_id}).decode('utf-8')
+        self.value = str(uuid.uuid4())
         self.expires = datetime.utcnow() + timedelta(seconds=self.default_expi)
 
     def __repr__(self):

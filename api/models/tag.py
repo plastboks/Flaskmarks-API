@@ -5,7 +5,8 @@ from ..core.setup import db, config
 
 
 class Tag(db.Model):
-    __tablename__ = 'tags'
+    __tablename__ = 'Tag'
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Unicode(255), nullable=False)
 
