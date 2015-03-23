@@ -25,12 +25,12 @@ curl -X POST -v -H "Content-Type: application/json" \
 {
     "apikeys": [
         [
-            "master", 
+            "master",
             "..."
         ]
-    ], 
-    "created": "Sun, 22 Mar 2015 18:11:04 -0000", 
-    "email": "test@example.net", 
+    ],
+    "created": "Sun, 22 Mar 2015 18:11:04 -0000",
+    "email": "test@example.net",
     "id": 1
 }
 ```
@@ -46,8 +46,8 @@ curl -X POST -v --basic -u "post@example.net:1234" \
 ```
 ```json
 {
-    "expires": "Wed, 25 Mar 2015 06:22:02 -0000", 
-    "key": "apple", 
+    "expires": "Wed, 25 Mar 2015 06:22:02 -0000",
+    "key": "apple",
     "value": "..."
 }
 ```
@@ -60,8 +60,8 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 ```
 ```json
 {
-    "expires": null, 
-    "key": "master", 
+    "expires": null,
+    "key": "master",
     "value": "..."
 }
 ```
@@ -75,16 +75,16 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 ```json
 {
     "pager": {
-        "next_num": false, 
-        "page": 1, 
-        "pages": 1, 
-        "prev_num": false, 
+        "next_num": false,
+        "page": 1,
+        "pages": 1,
+        "prev_num": false,
         "total": 1
-    }, 
+    },
     "tokens": [
         {
-            "expires": null, 
-            "key": "master", 
+            "expires": null,
+            "key": "master",
             "value": "..."
         }
     ]
@@ -117,18 +117,18 @@ curl -X POST -v -H "Content-Type: application/json" \
 ```
 ```json
 {
-    "clicks": 0, 
-    "created": "Sun, 22 Mar 2015 18:11:06 -0000", 
-    "id": 18, 
-    "last_clicked": null, 
+    "clicks": 0,
+    "created": "Sun, 22 Mar 2015 18:11:06 -0000",
+    "id": 18,
+    "last_clicked": null,
     "tags": [
-        "tag1", 
-        "tag2", 
+        "tag1",
+        "tag2",
         "tag3"
-    ], 
-    "title": "updated title", 
-    "type": "bookmark", 
-    "updated": null, 
+    ],
+    "title": "updated title",
+    "type": "bookmark",
+    "updated": null,
     "url": "http://example.org"
 }
 ```
@@ -141,18 +141,18 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 ```
 ```json
 {
-    "clicks": 0, 
-    "created": "Sun, 22 Mar 2015 18:26:18 -0000", 
-    "id": 1, 
-    "last_clicked": null, 
+    "clicks": 0,
+    "created": "Sun, 22 Mar 2015 18:26:18 -0000",
+    "id": 1,
+    "last_clicked": null,
     "tags": [
-        "1", 
-        "2", 
+        "1",
+        "2",
         "3"
-    ], 
-    "title": "test", 
-    "type": "bookmark", 
-    "updated": null, 
+    ],
+    "title": "test",
+    "type": "bookmark",
+    "updated": null,
     "url": "http://example.org"
 }
 ```
@@ -173,18 +173,18 @@ curl -X PUT -v -H "Content-Type: application/json" \
 ```
 ```json
 {
-    "clicks": 0, 
-    "created": "Sun, 22 Mar 2015 18:11:06 -0000", 
-    "id": 18, 
-    "last_clicked": null, 
+    "clicks": 0,
+    "created": "Sun, 22 Mar 2015 18:11:06 -0000",
+    "id": 18,
+    "last_clicked": null,
     "tags": [
-        "tag1", 
-        "tag2", 
+        "tag1",
+        "tag2",
         "tag3"
-    ], 
-    "title": "updated title", 
-    "type": "bookmark", 
-    "updated": null, 
+    ],
+    "title": "updated title",
+    "type": "bookmark",
+    "updated": null,
     "url": "http://example.org"
 }
 ```
@@ -205,26 +205,68 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 {
     "marks": [
         {
-            "clicks": 0, 
-            "created": "Sun, 22 Mar 2015 18:11:06 -0000", 
-            "id": 18, 
-            "last_clicked": null, 
+            "clicks": 0,
+            "created": "Sun, 22 Mar 2015 18:11:06 -0000",
+            "id": 18,
+            "last_clicked": null,
             "tags": [
-                "tag1", 
-                "tag2", 
+                "tag1",
+                "tag2",
                 "tag3"
-            ], 
-            "title": "updated title", 
-            "type": "bookmark", 
-            "updated": null, 
+            ],
+            "title": "updated title",
+            "type": "bookmark",
+            "updated": null,
             "url": "http://example.org"
         }
-    ], 
+    ],
     "pager": {
-        "next_num": false, 
-        "page": 1, 
-        "pages": 1, 
-        "prev_num": false, 
+        "next_num": false,
+        "page": 1,
+        "pages": 1,
+        "prev_num": false,
+        "total": 1
+    }
+}
+```
+
+##Search
+
+```bash
+curl -X GET -v --basic -u "post@example.net:1234" \
+         http://localhost:5000/marks/?q=abc&type=bookmark&tag=tag1&sort=clicks
+
+or
+
+curl -X GET --basic -u "post@example.net" \
+         -H "Content-type: application/json" \
+         -d '{"q": "abc", "type": "bookmark", "tag": "tag1", "sort": "clicks"}' \
+         http://localhost:5000/marks
+```
+```json
+{
+    "marks": [
+        {
+            "clicks": 0,
+            "created": "Sun, 22 Mar 2015 18:11:06 -0000",
+            "id": 18,
+            "last_clicked": null,
+            "tags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "title": "abc",
+            "type": "bookmark",
+            "updated": null,
+            "url": "http://example.org"
+        }
+    ],
+    "pager": {
+        "next_num": false,
+        "page": 1,
+        "pages": 1,
+        "prev_num": false,
         "total": 1
     }
 }
@@ -242,23 +284,23 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 ```json
 {
     "pager": {
-        "next_num": false, 
-        "page": 1, 
-        "pages": 1, 
-        "prev_num": false, 
+        "next_num": false,
+        "page": 1,
+        "pages": 1,
+        "prev_num": false,
         "total": 3
-    }, 
+    },
     "tags": [
         {
-            "id": 1, 
+            "id": 1,
             "title": "tag1"
-        }, 
+        },
         {
-            "id": 2, 
+            "id": 2,
             "title": "tag2"
-        }, 
+        },
         {
-            "id": 3, 
+            "id": 3,
             "title": "tag3"
         }
     ]
