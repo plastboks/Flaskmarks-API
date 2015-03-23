@@ -1,13 +1,13 @@
 #Routes
 Current routes
 * POST /register
-* GET /token/key
+* GET /token/{:key}
 * POST /token
-* GET /tokens
+* GET /tokens/{?:page}
 * POST /mark
-* {GET,PUT} /mark/id
-* GET /marks
-* GET /tags
+* {GET,PUT} /mark/{:id}
+* GET /marks/{?:page}
+* GET /tags/{?:page}
 
 #Register
 
@@ -70,7 +70,7 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
-         http://localhost:5000/tokens
+         http://localhost:5000/tokens/{?:page}
 ```
 ```json
 {
@@ -137,7 +137,7 @@ curl -X POST -v -H "Content-Type: application/json" \
 
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
-         http://localhost:5000/mark/{id}
+         http://localhost:5000/mark/{:id}
 ```
 ```json
 {
@@ -189,7 +189,6 @@ curl -X PUT -v -H "Content-Type: application/json" \
 }
 ```
 
-
 ##Delete
 
 ```bash
@@ -199,7 +198,8 @@ not implemented
 ##All
 
 ```bash
-curl -X GET -v --basic -u "post@example.net:1234" http://localhost:5000/marks
+curl -X GET -v --basic -u "post@example.net:1234" \
+         http://localhost:5000/marks{?:page}
 ```
 ```json
 {
@@ -230,13 +230,14 @@ curl -X GET -v --basic -u "post@example.net:1234" http://localhost:5000/marks
 }
 ```
 
+
 #Tag
 
 ##All
 
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
-        http://localhost:5000/tags/{?:page_id}
+        http://localhost:5000/tags/{?:page}
 ```
 ```json
 {
