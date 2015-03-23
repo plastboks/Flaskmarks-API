@@ -229,3 +229,37 @@ curl -X GET -v --basic -u "post@example.net:1234" http://localhost:5000/marks
     }
 }
 ```
+
+#Tag
+
+##All
+
+```bash
+curl -X GET -v --basic -u "post@example.net:1234" \
+        http://localhost:5000/tags/{?:page_id}
+```
+```json
+{
+    "pager": {
+        "next_num": false, 
+        "page": 1, 
+        "pages": 1, 
+        "prev_num": false, 
+        "total": 3
+    }, 
+    "tags": [
+        {
+            "id": 1, 
+            "title": "tag1"
+        }, 
+        {
+            "id": 2, 
+            "title": "tag2"
+        }, 
+        {
+            "id": 3, 
+            "title": "tag3"
+        }
+    ]
+}
+```
