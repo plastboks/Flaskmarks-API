@@ -138,7 +138,7 @@ class User(db.Model):
     Tags
     """
     def my_tags(self):
-        return Tag.query.filter(Tag.marks.any(owner_id=self.id))
+        return Tag.query.filter(Tag.Mark.any(owner_id=self.id))
 
     def all_tags(self, page):
         return self.my_tags().paginate(page, self.per_page, False)
