@@ -23,12 +23,6 @@ curl -X POST -v -H "Content-Type: application/json" \
 ```
 ```json
 {
-    "apikeys": [
-        [
-            "master",
-            "..."
-        ]
-    ],
     "created": "Sun, 22 Mar 2015 18:11:04 -0000",
     "email": "test@example.net",
     "id": 1
