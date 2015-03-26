@@ -11,8 +11,7 @@ Install
 * Create and activate a python virtualenv.
 * make a copy of config/default.py.example to config/default.py and edit accordingly.
 * make a copy of config/environment.py.example to config/environment.py and edit accordingly.
-* run: `sed -i s/REPLACE_SECRET_KEY/$(python -c "import uuid;print uuid.uuid4()")/g config/default.py`
-* run: `sed -i s/REPLACE_API_KEY_SALT/$(python -c "import bcrypt;print bcrypt.gensalt()")/g config/default.py`
+* run: `./setup`
 * run: `pip install -r requirements.txt`.
 * set: `export APP_CONFIG_FILE=$PWD/config/environment.py`
 * run: `python run.py db init`

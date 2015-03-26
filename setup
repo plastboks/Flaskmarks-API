@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+# small setup script for automating configuration files
+
+cp config/default.py.example config/default.py
+
+sed -i s/REPLACE_SECRET_KEY/$(python -c "import uuid; print uuid.uuid4()")/g config/default.py
+sed -i s/REPLACE_API_KEY_SALT/$(python -c "import bcrypt; print bcrypt.gensalt()")/g config/default.py

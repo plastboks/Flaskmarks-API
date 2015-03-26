@@ -32,7 +32,7 @@ class User(db.Model):
         if email:
             self.email = email
         if password:
-            self.password = bcrypt.hashpw(password, config['APIKEY_SALT'])
+            self.password = bcrypt.hashpw(password, bcrypt.gensalt())
 
     """
     Authentication
@@ -51,8 +51,7 @@ class User(db.Model):
         return None
 
     def verify_password(self, password):
-        hashed = bcrypt.hashpw(password, config['APIKEY_SALT'])
-        return self.password == hashed
+        return bcrypt.hashpw(password, self.password) == self.password
 
     def is_authenticated(self):
         return True
