@@ -18,25 +18,9 @@ token_fields = {
 class Token(Resource):
     @auth.login_required
     @marshal_with(token_fields)
-    def get(self, key):
-        token = g.user.get_token_by_key(key)
-        if token:
-            return token
-        return abort(410, message="Unknown {} token key".format(key))
-
-    @auth.login_required
-    @marshal_with(token_fields)
     def post(self):
         post_parser = reqparse.RequestParser()
         post_parser.add_argument('key', type=str, required=True,
                                  help='Missing key')
         args = post_parser.parse_args()
         return g.user.create_apikey(args.key)
-
-
-class Tokens(Resource):
-    @auth.login_required
-    def get(self, page=1):
-        tokens = g.user.tokens(page)
-        return {'tokens': marshal(tokens.items, token_fields),
-                'pager': g.user.json_pager(tokens)}

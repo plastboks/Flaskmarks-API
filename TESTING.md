@@ -48,50 +48,9 @@ curl -X POST -v --basic -u "post@example.net:1234" \
 {
     "expires": "Wed, 25 Mar 2015 06:22:02 -0000",
     "key": "apple",
-    "value": "..."
+    "unhashed": "..."
 }
 ```
-
-##Get by key
-
-```
-curl -X GET -v --basic -u "post@example.net:1234" \
-         http://localhost:5000/token/{:key}
-```
-```json
-{
-    "expires": null,
-    "key": "master",
-    "value": "..."
-}
-```
-
-##All
-
-```bash
-curl -X GET -v --basic -u "post@example.net:1234" \
-         http://localhost:5000/tokens/{?:page}
-```
-```json
-{
-    "pager": {
-        "next_num": false,
-        "page": 1,
-        "pages": 1,
-        "prev_num": false,
-        "total": 1
-    },
-    "tokens": [
-        {
-            "expires": null,
-            "key": "master",
-            "value": "..."
-        }
-    ]
-}
-
-```
-
 ##Using token auth
 
 ```bash

@@ -22,9 +22,6 @@ if core.setup.config['CAN_REGISTER']:
 core.setup.api.add_resource(views.Token,
                             '/token', '/token/<string:key>',
                             endpoint='token')
-core.setup.api.add_resource(views.Tokens,
-                            '/tokens', '/tokens/<int:page>',
-                            endpoint='tokens')
 
 core.setup.api.add_resource(views.Mark,
                             '/mark', '/mark/<string:mark_id>',
