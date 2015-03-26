@@ -1,6 +1,9 @@
 """
 Security
-Replace with: `python -c "import uuid;print uuid.uuid4()"`
+Replace SECRET_KEY with ex: a value from uuid.uuid4()
+Replace APIKEY_SALT with bcrypt.gensalt()
 """
-SECRET_KEY = "REPLACE_ME"
+
+SECRET_KEY = "REPLACE_SECRET_KEY"
 BCRYPT_LEVEL = 12
+APIKEY_SALT = "REPLACE_API_KEY_SALT"
