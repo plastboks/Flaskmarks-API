@@ -18,9 +18,15 @@ register = requests.post(base_url + 'register',
                          params={'user': user_name,
                                  'email': user_email,
                                  'password': user_pass})
+print(register.text)
+
+token_request = requests.post(base_url + 'token',
+                              auth=(user_email, user_pass),
+                              params={'key': 'master'})
+print(token_request.text)
 
 # get token for newly registered user.
-token = register.json().get('apikeys').pop()[1]
+token = token_request.json().get('unhashed')
 
 # create mark
 mark_payload = {'type': 'bookmark',

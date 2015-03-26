@@ -2,7 +2,8 @@
 
 from sqlalchemy import and_, or_, desc
 from datetime import datetime, timedelta
-from ..core.setup import db, config
+import bcrypt
+from ..core.setup import db, config#, bcrypt
 import uuid
 
 
@@ -18,10 +19,12 @@ class ApiKey(db.Model):
 
     default_expi = 60**3
 
+    unhashed = str(uuid.uuid4())
+
     def __init__(self, owner_id, key):
         self.owner_id = owner_id
         self.key = key
-        self.value = str(uuid.uuid4())
+        self.value = bcrypt.hashpw(self.unhashed, config['APIKEY_SALT'])
         self.expires = datetime.utcnow() + timedelta(seconds=self.default_expi)
 
     def __repr__(self):

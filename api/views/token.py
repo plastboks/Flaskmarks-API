@@ -10,8 +10,8 @@ from ..models import Mark
 
 token_fields = {
     'key': fields.String,
-    'value': fields.String,
-    'expires': fields.DateTime
+    'expires': fields.DateTime,
+    'unhashed': fields.String
 }
 
 

@@ -9,8 +9,7 @@ from ..models import User
 user_fields = {
     'id': fields.Integer,
     'email': fields.String,
-    'created': fields.DateTime,
-    'apikeys': ApiKeyList
+    'created': fields.DateTime
 }
 
 
@@ -39,7 +38,6 @@ class Register(Resource):
         u = User(args.email, args.password)
         user = u.save()
         if user:
-            user.create_apikey("master")
             return user
         return abort(409, message="User with this email {} exists"
                      .format(args.email))

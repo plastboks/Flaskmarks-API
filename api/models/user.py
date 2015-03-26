@@ -3,10 +3,11 @@
 from sqlalchemy import or_, and_, desc, asc, func
 from sqlalchemy.orm import aliased
 from datetime import datetime
-from ..core.setup import db, config, bcrypt
+from ..core.setup import db, config#, bcrypt
 from .tag import Tag
 from .mark import Mark
 from .apikey import ApiKey
+import bcrypt
 
 
 class User(db.Model):
@@ -25,11 +26,13 @@ class User(db.Model):
     marks = db.relationship('Mark', backref='owner', lazy='dynamic')
     apikeys = db.relationship('ApiKey', backref='owner', lazy='joined')
 
+    master_key = ""
+
     def __init__(self, email=False, password=False):
         if email:
             self.email = email
         if password:
-            self.password = bcrypt.generate_password_hash(password)
+            self.password = bcrypt.hashpw(password, config['APIKEY_SALT'])
 
     """
     Authentication
@@ -41,13 +44,15 @@ class User(db.Model):
 
     @staticmethod
     def verify_api_key(token):
-        t = ApiKey.query.filter(ApiKey.value == token).first()
+        hashed = bcrypt.hashpw(token, config['APIKEY_SALT'])
+        t = ApiKey.query.filter(ApiKey.value == hashed).first()
         if t and t.expires > datetime.utcnow():
             return t.owner
         return None
 
     def verify_password(self, password):
-        return bcrypt.check_password_hash(self.password, password)
+        hashed = bcrypt.hashpw(password, config['APIKEY_SALT'])
+        return self.password == hashed
 
     def is_authenticated(self):
         return True
