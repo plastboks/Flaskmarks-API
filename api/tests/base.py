@@ -9,12 +9,10 @@ from ..core.setup import db
 
 class BaseTest(TestCase):
 
-    SQLALCHEMY_DATABASE_URI = tempfile.mkstemp()
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
 
     def create_app(self):
-        app = Flask(__name__)
-        app.config['TESTING'] = True
         return app
 
     def setUp(self):
