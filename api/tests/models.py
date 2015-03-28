@@ -1,5 +1,7 @@
 # api/tests/models.py
 
+from webtest import TestApp
+import uuid
 from ..models import User
 from ..core.setup import db
 from . import BaseTest
@@ -24,7 +26,10 @@ class UserTests(BaseTest):
                                  )
         db.session.add(instance)
         q = User.by_email('user2@email.com')
+        master_token = q.get_token_by_key('master')
+        print(master_token)
         self.assertEqual(q.email, 'user2@email.com')
+        self.assertTrue(q.is_active)
 
     def test_marks(self):
         instance = self._makeOne(email='user2@email.com',
@@ -45,3 +50,14 @@ class UserTests(BaseTest):
 
         marks = q.marks(1) 
         tags = q.all_tags(1)
+
+class UserRegister(BaseTest):
+
+    #def setUp(self):
+        #self.app = TestApp(self.app)
+
+    def test_register(self):
+        email = str(uuid.uuid4()) + "@testing.net"
+        password = '1234'
+        res = self.client.post('/register', {'email': email,
+                                          'password': password})
