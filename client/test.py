@@ -28,6 +28,11 @@ print(token_request.text)
 # get token for newly registered user.
 token = token_request.json().get('unhashed')
 
+# get profile
+profile_request = requests.get(base_url + 'profile',
+                               auth=(token, 'unused'))
+print(profile_request.text)
+
 # create mark
 mark_payload = {'type': 'bookmark',
                 'title': 'test',

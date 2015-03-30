@@ -1,5 +1,7 @@
 # api/models/user.py
 
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import BadSignature, SignatureExpired
 from sqlalchemy import or_, and_, desc, asc, func
 from sqlalchemy.orm import aliased
 from datetime import datetime
@@ -15,6 +17,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     active = db.Column(db.Integer, default=1)
+    username = db.Column(db.Unicode(255), unique=True)
     email = db.Column(db.Unicode(255), unique=True, nullable=False)
     username = db.Column(db.Unicode(128), unique=True)
     password = db.Column(db.Unicode(255), nullable=False)
@@ -44,8 +47,14 @@ class User(db.Model):
 
     @staticmethod
     def verify_api_key(token):
-        hashed = bcrypt.hashpw(token, config['APIKEY_SALT'])
-        t = ApiKey.query.filter(ApiKey.value == hashed).first()
+        s = Serializer(config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None
+        except BadSignature:
+            return None
+        t = ApiKey.query.filter(ApiKey.value == data['uuid']).first()
         if t and t.expires > datetime.utcnow():
             return t.owner
         return None

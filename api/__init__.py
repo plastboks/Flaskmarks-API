@@ -19,6 +19,8 @@ from . import views
 if core.setup.config['CAN_REGISTER']:
     core.setup.api.add_resource(views.Register, '/register')
 
+core.setup.api.add_resource(views.Profile, '/profile')
+
 core.setup.api.add_resource(views.Token,
                             '/token', '/token/<string:key>',
                             endpoint='token')

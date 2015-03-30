@@ -8,6 +8,7 @@ from ..models import User
 
 user_fields = {
     'id': fields.Integer,
+    'username': fields.String,
     'email': fields.String,
     'created': fields.DateTime
 }

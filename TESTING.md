@@ -26,8 +26,26 @@ curl -X POST -v -H "Content-Type: application/json" \
     "created": "Sun, 22 Mar 2015 18:11:04 -0000",
     "email": "test@example.net",
     "id": 1
+    "username": null
 }
 ```
+
+
+#Profile
+
+```bash
+curl -X GET -v --basic -u "post@example.net:1234" \
+         http://localhost:5000/profile
+```
+```json
+{
+    "created": "Sun, 22 Mar 2015 18:11:04 -0000",
+    "email": "test@example.net", 
+    "id": 10, 
+    "username": null
+}
+```
+
 
 #Token
 
