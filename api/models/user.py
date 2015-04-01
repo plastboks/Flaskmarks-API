@@ -17,7 +17,6 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     active = db.Column(db.Integer, default=1)
-    username = db.Column(db.Unicode(255), unique=True)
     email = db.Column(db.Unicode(255), unique=True, nullable=False)
     username = db.Column(db.Unicode(128), unique=True)
     password = db.Column(db.Unicode(255), nullable=False)
@@ -165,6 +164,14 @@ class User(db.Model):
                 'next_num': obj.next_num if obj.has_next else False,
                 'prev_num': obj.prev_num if obj.has_prev else False,
                 'total': obj.total}
+
+    def update(self, args):
+        for key, value in args.iteritems():
+            if value:
+                setattr(self, key, value)
+        db.session.add(self)
+        db.session.commit()
+        return self
 
     def save(self):
         if not User.by_email(self.email):

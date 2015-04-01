@@ -1,11 +1,10 @@
 #Routes
 Current routes
 * POST /register
-* GET /token/{:key}
-* POST /token
+* {GET, PUT} /profile
+* {GET, POST} /token/{:key}
+* {GET, POST, PUT} /mark/{:id}
 * GET /tokens/{?:page}
-* POST /mark
-* {GET,PUT} /mark/{:id}
 * GET /marks/{?:page}
 * GET /tags/{?:page}
 
@@ -33,6 +32,7 @@ curl -X POST -v -H "Content-Type: application/json" \
 
 #Profile
 
+##Fetch
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
          http://localhost:5000/profile
@@ -45,7 +45,27 @@ curl -X GET -v --basic -u "post@example.net:1234" \
     "username": null
 }
 ```
+##Update
+```bash
+curl -X PUT -v --basic -u "post@example.net:1234" \
+         -d "username=horse" \
+         http://localhost:5000/profile
 
+or
+
+curl -X PUT -v -H "Content-Type: application/json" \
+         --basic -u "post@example23.net:1234" \
+         -d '{"username":"horse"}' \
+         http://localhost:5000/profile
+```
+```json
+{
+    "created": "Sun, 22 Mar 2015 18:11:04 -0000",
+    "email": "test@example.net",
+    "id": 10,
+    "username": "horse"
+}
+```
 
 #Token
 

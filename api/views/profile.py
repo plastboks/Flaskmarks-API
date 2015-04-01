@@ -6,6 +6,7 @@ from ..core.setup import Resource, auth, db
 from ..core.validators import validate_email
 from ..core.customfields import ApiKeyList
 from ..models import User
+from register import is_email
 
 user_fields = {
     'id': fields.Integer,
@@ -19,3 +20,14 @@ class Profile(Resource):
     @marshal_with(user_fields)
     def get(self):
         return g.user
+
+    @auth.login_required
+    @marshal_with(user_fields)
+    def put(self):
+        put_parser = reqparse.RequestParser()
+        put_parser.add_argument('username', type=str)
+        put_parser.add_argument('email', type=is_email)
+        put_parser.add_argument('password', type=is_email)
+
+        args = put_parser.parse_args()
+        return g.user.update(args)
