@@ -1,12 +1,11 @@
 #Routes
 Current routes
-* POST /register
-* {GET, PUT} /profile
-* {GET, POST} /token/{:key}
-* {GET, POST, PUT} /mark/{:id}
-* GET /tokens/{?:page}
-* GET /marks/{?:page}
-* GET /tags/{?:page}
+* [/register](#register) - {POST}
+* [/profile](#profile) - {GET, PUT}
+* [/token/{:key}](#token) - {GET, POST}
+* [/mark/{:id}](#mark) - {GET, POST, PUT, DELETE}
+* [/marks/{?:page}](#marks) - {GET}
+* [/tags/{?:page}](#tags) - {GET}
 
 #Register
 
@@ -24,7 +23,7 @@ curl -X POST -v -H "Content-Type: application/json" \
 {
     "created": "Sun, 22 Mar 2015 18:11:04 -0000",
     "email": "test@example.net",
-    "id": 1
+    "id": 1,
     "username": null
 }
 ```
@@ -32,7 +31,7 @@ curl -X POST -v -H "Content-Type: application/json" \
 
 #Profile
 
-##Fetch
+##GET - Profile
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
          http://localhost:5000/profile
@@ -45,7 +44,8 @@ curl -X GET -v --basic -u "post@example.net:1234" \
     "username": null
 }
 ```
-##Update
+
+##PUT - Profile
 ```bash
 curl -X PUT -v --basic -u "post@example.net:1234" \
          -d "username=horse" \
@@ -69,7 +69,7 @@ curl -X PUT -v -H "Content-Type: application/json" \
 
 #Token
 
-##Add
+##POST - Token
 
 ```bash
 curl -X POST -v --basic -u "post@example.net:1234" \
@@ -83,6 +83,7 @@ curl -X POST -v --basic -u "post@example.net:1234" \
     "unhashed": "..."
 }
 ```
+
 ##Using token auth
 
 ```bash
@@ -92,7 +93,7 @@ curl -X GET -v --basic -u "tokenkey:unused" http://localhost:5000/marks
 
 #Mark
 
-##Add
+##POST - Mark
 
 ```bash
 curl -X POST -v --basic -u "post@example.net:1234" \
@@ -124,7 +125,7 @@ curl -X POST -v -H "Content-Type: application/json" \
 }
 ```
 
-##Get by id
+##GET - Mark
 
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
@@ -148,7 +149,7 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 }
 ```
 
-##Update
+##PUT - Mark
 
 ```bash
 curl -X PUT -v --basic -u "post@example.net:1234" \
@@ -180,13 +181,31 @@ curl -X PUT -v -H "Content-Type: application/json" \
 }
 ```
 
-##Delete
+##DELETE - Mark
 
 ```bash
-not implemented
+curl -X DELETE -v --basic -u "post@example.net:1234" \
+         http://localhost:5000/mark/{:id}
+```
+```json
+{
+    "clicks": 0,
+    "created": "Sun, 22 Mar 2015 18:26:18 -0000",
+    "id": 1,
+    "last_clicked": null,
+    "tags": [
+        "1",
+        "2",
+        "3"
+    ],
+    "title": "test",
+    "type": "bookmark",
+    "updated": null,
+    "url": "http://example.org"
+}
 ```
 
-##All
+#Marks
 
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
@@ -221,7 +240,7 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 }
 ```
 
-##Search
+##Marks - Search
 
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
@@ -263,10 +282,7 @@ curl -X GET --basic -u "post@example.net" \
 }
 ```
 
-
-#Tag
-
-##All
+#Tags
 
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
