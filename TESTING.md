@@ -1,11 +1,25 @@
 #Routes
 Current routes
+* [/version](#version) - {GET}
 * [/register](#register) - {POST}
 * [/profile](#profile) - {GET, PUT}
 * [/token/{:key}](#token) - {GET, POST}
 * [/mark/{:id}](#mark) - {GET, POST, PUT, DELETE}
 * [/marks/{?:page}](#marks) - {GET}
 * [/tags/{?:page}](#tags) - {GET}
+
+
+#Version
+
+```bash
+curl -X GET -v http://localhost:5000/version
+```
+```json
+{
+    "version": "some-git-hash"
+}
+```
+
 
 #Register
 

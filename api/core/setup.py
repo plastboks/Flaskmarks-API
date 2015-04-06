@@ -1,5 +1,6 @@
 # api/core/setup.py
 
+from gitversion import git_version
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
@@ -18,6 +19,8 @@ app.config.from_object('config.default')
 app.config.from_envvar('APP_CONFIG_FILE')
 
 config = app.config
+config['version'] = git_version()
+
 """
 Debug mode
 """
