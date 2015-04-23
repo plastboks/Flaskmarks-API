@@ -28,6 +28,7 @@ class Profile(Resource):
         put_parser.add_argument('username', type=str)
         put_parser.add_argument('email', type=is_email)
         put_parser.add_argument('password', type=is_email)
+        put_parser.add_argument('per_page', type=int)
 
         args = put_parser.parse_args()
         return g.user.update(args)

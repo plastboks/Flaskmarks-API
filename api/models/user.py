@@ -20,7 +20,7 @@ class User(db.Model):
     email = db.Column(db.Unicode(255), unique=True, nullable=False)
     username = db.Column(db.Unicode(128), unique=True)
     password = db.Column(db.Unicode(255), nullable=False)
-    per_page = db.Column(db.SmallInteger, default=10)
+    per_page = db.Column(db.SmallInteger, default=20)
     sort_type = db.Column(db.Unicode(255), default=u'clicks')
     created = db.Column(db.DateTime, default=datetime.utcnow())
     last_logged_in = db.Column(db.DateTime)
