@@ -9,6 +9,7 @@ from ..models import User
 user_fields = {
     'id': fields.Integer,
     'username': fields.String,
+    'per_page': fields.Integer,
     'email': fields.String,
     'created': fields.DateTime
 }

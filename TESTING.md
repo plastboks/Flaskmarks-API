@@ -37,6 +37,7 @@ curl -X POST -v -H "Content-Type: application/json" \
 {
     "created": "Sun, 22 Mar 2015 18:11:04 -0000",
     "email": "test@example.net",
+    "per_page": 10,
     "id": 1,
     "username": null
 }
@@ -54,6 +55,7 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 {
     "created": "Sun, 22 Mar 2015 18:11:04 -0000",
     "email": "test@example.net", 
+    "per_page": 10,
     "id": 10, 
     "username": null
 }
@@ -76,6 +78,7 @@ curl -X PUT -v -H "Content-Type: application/json" \
 {
     "created": "Sun, 22 Mar 2015 18:11:04 -0000",
     "email": "test@example.net",
+    "per_page": 10,
     "id": 10,
     "username": "horse"
 }
