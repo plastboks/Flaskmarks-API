@@ -5,7 +5,7 @@ from itsdangerous import BadSignature, SignatureExpired
 from sqlalchemy import or_, and_, desc, asc, func
 from sqlalchemy.orm import aliased
 from datetime import datetime
-from ..core.setup import db, config#, bcrypt
+from ..core.setup import db, config
 from .tag import Tag
 from .mark import Mark
 from .apikey import ApiKey

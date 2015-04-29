@@ -4,7 +4,10 @@
 # https://github.com/warner/python-ecdsa/blob/9e21c3388cc98ba90877a1e4dbc2aaf66c67d365/setup.py#L33
 #
 
-import os, subprocess, re
+import os
+import subprocess
+import re
+
 
 def git_version():
     try:
@@ -16,4 +19,4 @@ def git_version():
     version = p.communicate()[0]
     if p.returncode != 0:
         return
-    return version 
+    return version

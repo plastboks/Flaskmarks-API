@@ -4,7 +4,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy import and_, or_, desc
 from datetime import datetime, timedelta
 import bcrypt
-from ..core.setup import db, config#, bcrypt
+from ..core.setup import db, config
 import uuid
 
 
@@ -29,8 +29,8 @@ class ApiKey(db.Model):
         self.set_unhashed()
 
     def set_unhashed(self):
-        s = Serializer(config['SECRET_KEY'], expires_in = self.default_expi)
-        self.unhashed = s.dumps({'uuid' : self.value})
-        
+        s = Serializer(config['SECRET_KEY'], expires_in=self.default_expi)
+        self.unhashed = s.dumps({'uuid': self.value})
+
     def __repr__(self):
         return '<ApiKey %d>' % (self.id)

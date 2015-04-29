@@ -16,6 +16,7 @@ def verify_password(username_or_token, password):
     g.user = u
     return True
 
+
 @auth.error_handler
 def unauthorized():
     return abort(401, message="Unauthorized access")

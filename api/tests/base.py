@@ -7,6 +7,7 @@ import tempfile
 from .. import app
 from ..core.setup import db
 
+
 class BaseTest(TestCase):
 
     TESTING = True

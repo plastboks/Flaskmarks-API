@@ -16,6 +16,7 @@ user_fields = {
     'created': fields.DateTime
 }
 
+
 class Profile(Resource):
     @auth.login_required
     @marshal_with(user_fields)

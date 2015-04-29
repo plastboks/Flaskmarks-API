@@ -48,16 +48,14 @@ class UserTests(BaseTest):
 
         self.assertTrue(q.get_mark_by_id(mark.id))
 
-        marks = q.marks(1) 
+        marks = q.marks(1)
         tags = q.all_tags(1)
 
-class UserRegister(BaseTest):
 
-    #def setUp(self):
-        #self.app = TestApp(self.app)
+class UserRegister(BaseTest):
 
     def test_register(self):
         email = str(uuid.uuid4()) + "@testing.net"
         password = '1234'
         res = self.client.post('/register', {'email': email,
-                                          'password': password})
+                                             'password': password})
