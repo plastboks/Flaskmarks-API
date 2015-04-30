@@ -15,25 +15,18 @@ from . import core
 from . import models
 from . import views
 
-core.setup.api.add_resource(views.Version, '/version')
-
 # routes
 if core.setup.config['CAN_REGISTER']:
     core.setup.api.add_resource(views.Register, '/register')
 
+core.setup.api.add_resource(views.Version, '/version')
+
 core.setup.api.add_resource(views.Profile, '/profile')
 
-core.setup.api.add_resource(views.Token,
-                            '/token', '/token/<string:key>',
-                            endpoint='token')
+core.setup.api.add_resource(views.Token, '/token', '/token/<string:key>')
 
-core.setup.api.add_resource(views.Mark,
-                            '/mark', '/mark/<string:mark_id>',
-                            endpoint='mark')
-core.setup.api.add_resource(views.Marks,
-                            '/marks', '/marks/<int:page>',
-                            endpoint='marks')
+core.setup.api.add_resource(views.Mark, '/mark', '/mark/<string:mark_id>')
 
-core.setup.api.add_resource(views.Tags,
-                            '/tags', '/tags/<int:page>',
-                            endpoint='tags')
+core.setup.api.add_resource(views.Marks, '/marks', '/marks/<int:page>')
+
+core.setup.api.add_resource(views.Tags, '/tags', '/tags/<int:page>')
