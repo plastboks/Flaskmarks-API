@@ -62,6 +62,12 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 ```
 
 ##PUT - Profile
+### Args
+* username
+* email
+* password
+* per_page (posts per page)
+
 ```bash
 curl -X PUT -v --basic -u "post@example.net:1234" \
          -d "username=horse" \
@@ -87,6 +93,8 @@ curl -X PUT -v -H "Content-Type: application/json" \
 #Token
 
 ##POST - Token
+### Args
+* key
 
 ```bash
 curl -X POST -v --basic -u "post@example.net:1234" \
@@ -111,6 +119,11 @@ curl -X GET -v --basic -u "tokenkey:unused" http://localhost:5000/marks
 #Mark
 
 ##POST - Mark
+### Args
+* type (required)
+* title (required)
+* url (required)
+* tags
 
 ```bash
 curl -X POST -v --basic -u "post@example.net:1234" \
@@ -167,6 +180,11 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 ```
 
 ##PUT - Mark
+### Args
+* type
+* title
+* url
+* tags
 
 ```bash
 curl -X PUT -v --basic -u "post@example.net:1234" \
@@ -258,7 +276,11 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 ```
 
 ##Marks - Search
-
+### Args
+* q (search keyword)
+* tag
+* type
+* sort (asc, desc)
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
          http://localhost:5000/marks/?q=abc&type=bookmark&tag=tag1&sort=clicks
