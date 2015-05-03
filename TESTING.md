@@ -11,6 +11,8 @@ Current routes
 
 #Version
 
+## GET - Version
+
 ```bash
 curl -X GET -v http://localhost:5000/version
 ```
@@ -22,6 +24,8 @@ curl -X GET -v http://localhost:5000/version
 
 
 #Register
+
+## POST - Register
 
 ```bash
 curl -X POST -v -d "user=test&email=post@example.net&password=1234" \
@@ -47,6 +51,7 @@ curl -X POST -v -H "Content-Type: application/json" \
 #Profile
 
 ##GET - Profile
+
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
          http://localhost:5000/profile
@@ -62,6 +67,7 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 ```
 
 ##PUT - Profile
+
 ### Args
 * username
 * email
@@ -242,6 +248,8 @@ curl -X DELETE -v --basic -u "post@example.net:1234" \
 
 #Marks
 
+## GET - Marks
+
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
          http://localhost:5000/marks{?:page}
@@ -275,22 +283,23 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 }
 ```
 
-##Marks - Search
+##GET Marks (Search)
 ### Args
 * q (search keyword)
 * tag
 * type
 * sort (asc, desc)
+
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
-         http://localhost:5000/marks/?q=abc&type=bookmark&tag=tag1&sort=clicks
+         http://localhost:5000/marks/{?:page}?q=abc&type=bookmark&tag=tag1&sort=clicks
 
 or
 
 curl -X GET --basic -u "post@example.net" \
          -H "Content-type: application/json" \
          -d '{"q": "abc", "type": "bookmark", "tag": "tag1", "sort": "clicks"}' \
-         http://localhost:5000/marks
+         http://localhost:5000/marks/{?:page}
 ```
 ```json
 {
@@ -322,6 +331,8 @@ curl -X GET --basic -u "post@example.net" \
 ```
 
 #Tags
+
+## GET - Tags
 
 ```bash
 curl -X GET -v --basic -u "post@example.net:1234" \
