@@ -3,7 +3,7 @@ Current routes
 * [/version](#version) - {GET}
 * [/register](#register) - {POST}
 * [/profile](#profile) - {GET, PUT}
-* [/token/{:key}](#token) - {GET, POST}
+* [/token](#token) - {POST}
 * [/mark/{:id}](#mark) - {GET, POST, PUT, DELETE}
 * [/marks/{?:page}](#marks) - {GET}
 * [/tags/{?:page}](#tags) - {GET}
