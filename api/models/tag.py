@@ -13,6 +13,11 @@ class Tag(db.Model):
     def __init__(self, title):
         self.title = title
 
+    def update(self):
+        db.session.add(self)
+        db.session.commit()
+        return self
+
     @classmethod
     def check(self, title):
         return self.query.filter(Tag.title == title).first()
