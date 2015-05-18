@@ -32,5 +32,13 @@ class ApiKey(db.Model):
         s = Serializer(config['SECRET_KEY'], expires_in=self.default_expi)
         self.unhashed = s.dumps({'uuid': self.value})
 
+    def renew(self):
+        t.expires = datetime.utcnow()
+
+    def update(self):
+        db.session.add(self)
+        db.session.commit()
+        return self
+
     def __repr__(self):
         return '<ApiKey %d>' % (self.id)

@@ -55,6 +55,9 @@ class User(db.Model):
             return None
         t = ApiKey.query.filter(ApiKey.value == data['uuid']).first()
         if t and t.expires > datetime.utcnow():
+            # renew key
+            t.renew()
+            t.update()
             return t.owner
         return None
 
