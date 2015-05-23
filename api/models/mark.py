@@ -18,7 +18,7 @@ class Mark(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('User.id'))
-    active = db.Column(db.Integer, default=1)
+    status = db.Column(db.Integer, default=1)
     type = db.Column(db.Unicode(255), nullable=False)
     title = db.Column(db.Unicode(255), nullable=False)
     url = db.Column(db.Unicode(512), nullable=False)
@@ -31,6 +31,8 @@ class Mark(db.Model):
                         secondary=ass_tbl,
                         lazy='joined',
                         backref='Mark')
+
+    status_map = {'active': 1, 'deactive': 2}
 
     valid_types = ['bookmark', 'feed']
 
@@ -70,7 +72,7 @@ class Mark(db.Model):
         db.session.commit()
 
     def delete(self):
-        self.active = 0
+        self.status = self.status_map['deactive']
         db.session.add(self)
         db.session.commit()
 

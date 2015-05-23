@@ -16,7 +16,7 @@ class User(db.Model):
     __tablename__ = 'User'
 
     id = db.Column(db.Integer, primary_key=True)
-    active = db.Column(db.Integer, default=1)
+    status = db.Column(db.Integer, default=1)
     email = db.Column(db.Unicode(255), unique=True, nullable=False)
     username = db.Column(db.Unicode(128), unique=True)
     password = db.Column(db.Unicode(255), nullable=False)
@@ -30,6 +30,8 @@ class User(db.Model):
 
     master_key = ""
 
+    status_map = {'active': 1, 'deactive': 2}
+
     def __init__(self, email=False, password=False):
         if email:
             self.email = email
@@ -42,7 +44,7 @@ class User(db.Model):
     @classmethod
     def by_email(self, email):
         return self.query.filter(and_(User.email == email,
-                                      User.active == 1)).first()
+                                      User.status == self.status_map['active'])).first()
 
     @staticmethod
     def verify_api_key(token):
@@ -68,7 +70,7 @@ class User(db.Model):
         return True
 
     def is_active(self):
-        return self.active == 1
+        return self.status == self.status_map['active']
 
     def is_anonymous(self):
         return True
@@ -93,11 +95,11 @@ class User(db.Model):
 
     def my_marks(self):
         return Mark.query.filter(and_(Mark.owner_id == self.id,
-                                      Mark.active == 1))
+                                      Mark.status == self.status_map['active']))
 
     def get_mark_by_id(self, id):
         mark = self.my_marks().filter(and_(Mark.id == id,
-                                           Mark.active == 1)).first()
+                                           Mark.status == self.status_map['active'])).first()
         if mark:
             mark.increment_clicks()
             return mark
