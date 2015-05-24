@@ -33,7 +33,7 @@ class ApiKey(db.Model):
         self.unhashed = s.dumps({'uuid': self.value})
 
     def renew(self):
-        t.expires = datetime.utcnow()
+        self.expires = datetime.utcnow() + timedelta(seconds=self.default_expi)
 
     def update(self):
         db.session.add(self)
