@@ -1,9 +1,9 @@
 #Routes
 Current routes
 * [/version](#version) - {GET}
-* [/register](#register) - {POST}
-* [/profile](#profile) - {GET, PUT}
+* [/profile](#profile) - {POST, GET, PUT, DELETE}
 * [/token](#token) - {POST}
+* [/setting/{:name}](#setting) - {GET, POST, PUT, DELETE}
 * [/mark/{:id}](#mark) - {GET, POST, PUT, DELETE}
 * [/marks/{?:page}](#marks) - {GET}
 * [/tags/{?:page}](#tags) - {GET}
@@ -22,10 +22,9 @@ curl -X GET -v http://localhost:5000/version
 }
 ```
 
+#Profile
 
-#Register
-
-## POST - Register
+## POST - Profile
 
 ```bash
 curl -X POST -v -d "user=test&email=post@example.net&password=1234" \
@@ -47,9 +46,6 @@ curl -X POST -v -H "Content-Type: application/json" \
 }
 ```
 
-
-#Profile
-
 ##GET - Profile
 
 ```bash
@@ -59,9 +55,9 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 ```json
 {
     "created": "Sun, 22 Mar 2015 18:11:04 -0000",
-    "email": "test@example.net", 
+    "email": "test@example.net",
     "per_page": 10,
-    "id": 10, 
+    "id": 10,
     "username": null
 }
 ```
@@ -96,6 +92,22 @@ curl -X PUT -v -H "Content-Type: application/json" \
 }
 ```
 
+##DELETE - Profile
+
+```bash
+curl -X DELETE -v --basic -u "post@example.net:1234" \
+         http://localhost:5000/profile
+```
+```json
+{
+    "created": "Sun, 22 Mar 2015 18:11:04 -0000",
+    "email": "test@example.net",
+    "per_page": 10,
+    "id": 10,
+    "username": null
+}
+```
+
 #Token
 
 ##POST - Token
@@ -119,6 +131,75 @@ curl -X POST -v --basic -u "post@example.net:1234" \
 
 ```bash
 curl -X GET -v --basic -u "tokenkey:unused" http://localhost:5000/marks
+```
+
+#Setting
+
+##POST - Setting
+### Args
+* name (required)
+* json (required)
+
+```bash
+curl -X POST -v --basic -u "post@example.net:1234" \
+         -d "name=setting1&json={1,2,3,4}" \
+         http://localhost:5000/setting
+```
+```json
+{
+    "created": "Mon, 25 May 2015 21:18:37 -0000",
+    "json": "{1,2,3,4}",
+    "name": "setting1",
+    "updated": null
+}
+```
+
+##GET - Setting
+
+```bash
+curl -X GET -v --basic -u "post@example.net:1234" \
+         http://localhost:5000/setting/setting1
+```
+```json
+{
+    "created": "Mon, 25 May 2015 21:18:37 -0000",
+    "json": "{1,2,3,4}",
+    "name": "setting1",
+    "updated": null
+}
+```
+
+##PUT - Setting
+### Args
+* json (required)
+
+```bash
+curl -X POST -v --basic -u "post@example.net:1234" \
+         -d "json={5,6,7,8}" \
+         http://localhost:5000/setting/setting1
+```
+```json
+{
+    "created": "Mon, 25 May 2015 21:18:37 -0000",
+    "json": "{5,6,7,8}",
+    "name": "setting1",
+    "updated": "Mon, 25 May 2015 21:18:37 -0000"
+}
+```
+
+##DELETE - Setting
+
+```bash
+curl -X DELETE -v --basic -u "post@example.net:1234" \
+         http://localhost:5000/setting/setting1
+```
+```json
+{
+    "created": "Mon, 25 May 2015 21:18:37 -0000",
+    "json": "{5,6,7,8}",
+    "name": "setting1",
+    "updated": "Mon, 25 May 2015 21:18:37 -0000"
+}
 ```
 
 

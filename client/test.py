@@ -15,7 +15,7 @@ user_pass = '1234'
 
 # register new user
 print('=> Registering new user')
-register = requests.post(base_url + 'register',
+register = requests.post(base_url + 'profile',
                          params={'user': user_name,
                                  'email': user_email,
                                  'password': user_pass})

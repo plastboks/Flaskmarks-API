@@ -15,8 +15,6 @@ from . import core
 from . import views
 
 # routes
-if core.setup.config['CAN_REGISTER']:
-    core.setup.api.add_resource(views.Register, '/register')
 
 core.setup.api.add_resource(views.Version,
                             '/version')
