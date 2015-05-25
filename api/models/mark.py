@@ -32,7 +32,7 @@ class Mark(db.Model):
                         lazy='joined',
                         backref='Mark')
 
-    status_map = {'active': 1, 'deactive': 2}
+    status_map = {'active': 1, 'inactive': 2}
 
     valid_types = ['bookmark', 'feed']
 
@@ -43,7 +43,12 @@ class Mark(db.Model):
         else:
             self.created = dt.utcnow()
 
-    def update_mark(self, args):
+    def delete(self):
+        self.status = self.status_map['inactive']
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self, args):
         for key, value in args.iteritems():
             if value and key == 'tags':
                 self.update_tags(value)
@@ -68,11 +73,6 @@ class Mark(db.Model):
     def increment_clicks(self):
         self.clicks += 1
         self.last_clicked = dt.utcnow()
-        db.session.add(self)
-        db.session.commit()
-
-    def delete(self):
-        self.status = self.status_map['deactive']
         db.session.add(self)
         db.session.commit()
 

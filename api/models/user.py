@@ -9,6 +9,7 @@ from ..core.setup import db, config
 from .tag import Tag
 from .mark import Mark
 from .apikey import ApiKey
+from .setting import Setting
 import bcrypt
 
 
@@ -27,10 +28,9 @@ class User(db.Model):
 
     marks = db.relationship('Mark', backref='owner', lazy='dynamic')
     apikeys = db.relationship('ApiKey', backref='owner', lazy='joined')
+    settings = db.relationship('Setting', backref='owner', lazy='joined')
 
-    master_key = ""
-
-    status_map = {'active': 1, 'deactive': 2}
+    smap = {'active': 1, 'inactive': 2}
 
     def __init__(self, email=False, password=False):
         if email:
@@ -44,7 +44,7 @@ class User(db.Model):
     @classmethod
     def by_email(self, email):
         return self.query.filter(and_(User.email == email,
-                                      User.status == self.status_map['active'])).first()
+                                      User.status == self.smap['active'])).first()
 
     @staticmethod
     def verify_api_key(token):
@@ -70,7 +70,7 @@ class User(db.Model):
         return True
 
     def is_active(self):
-        return self.status == self.status_map['active']
+        return self.status == self.smap['active']
 
     def is_anonymous(self):
         return True
@@ -95,11 +95,11 @@ class User(db.Model):
 
     def my_marks(self):
         return Mark.query.filter(and_(Mark.owner_id == self.id,
-                                      Mark.status == self.status_map['active']))
+                                      Mark.status == self.smap['active']))
 
     def get_mark_by_id(self, id):
         mark = self.my_marks().filter(and_(Mark.id == id,
-                                           Mark.status == self.status_map['active'])).first()
+                                           Mark.status == self.smap['active'])).first()
         if mark:
             mark.increment_clicks()
             return mark
@@ -150,6 +150,24 @@ class User(db.Model):
 
     def get_token_by_key(self, key):
         return self.my_apikeys().filter(ApiKey.key == key).first()
+
+    """
+    Settings
+    """
+    def create_setting(self, name, json):
+        setting = Setting(self.id, name, json)
+        db.session.add(setting)
+        db.session.commit()
+        return setting
+
+    def my_settings(self):
+        return Setting.query.filter(Setting.owner_id == self.id)
+
+    def settings(self, page):
+        return self.my_settings().paginate(page, self.per_page, False)
+
+    def get_setting_by_name(self, name):
+        return self.my_settings().filter(Setting.name == name).first()
 
     """
     Tags

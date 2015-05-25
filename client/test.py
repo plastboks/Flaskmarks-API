@@ -44,6 +44,31 @@ profile_username_request = requests.put(base_url + 'profile',
                                         params={'username': str(uuid.uuid4())})
 print(profile_username_request.text)
 
+# create settings object
+print('=> Create new setting')
+new_setting = requests.post(base_url + 'setting',
+                            auth=(token, 'unused'),
+                            params={'name': 'setting1', 'json': '{1,2,3,4}'})
+print(new_setting.text)
+setting_name = new_setting.json().get('name')
+
+# get setting
+print('=> Fetching new setting')
+setting = requests.get(base_url + 'setting/' + setting_name,
+                       auth=(token, 'unused'))
+print(setting.text)
+
+# update setting
+print('=> Updating new setting')
+updated_setting = requests.put(base_url + 'setting/' + setting_name,
+                               auth=(token, 'unused'),
+                               params={'json': '{1,2,3,4,5,6,7}'})
+print(updated_setting.text)
+
+print('=> Delete setting')
+print(requests.delete(base_url + 'setting/' + setting_name,
+                      auth=(token, 'unused')).text)
+
 # create mark
 print('=> Create new mark')
 mark_payload = {'type': 'bookmark',

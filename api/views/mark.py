@@ -49,7 +49,7 @@ class Mark(Resource):
         args = put_parser.parse_args()
         mark = g.user.get_mark_by_id(mark_id)
         if mark:
-            return mark.update_mark(args)
+            return mark.update(args)
         return abort(410, message="Mark {} doesn't exist".format(mark_id))
 
     @auth.login_required
