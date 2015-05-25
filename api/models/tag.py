@@ -1,7 +1,6 @@
 # flaskmarks/models/tag.py
 
-from sqlalchemy import and_, or_, desc
-from ..core.setup import db, config
+from ..core.setup import db
 
 
 class Tag(db.Model):

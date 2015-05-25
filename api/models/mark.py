@@ -1,10 +1,8 @@
 # flaskmarks/models/mark.py
 
-from sqlalchemy import and_, or_, desc
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime as dt
-from ..core.setup import db, config
+from ..core.setup import db
 from .tag import Tag
 
 ass_tbl = db.Table('MarkTag', db.metadata,
@@ -36,17 +34,16 @@ class Mark(db.Model):
 
     valid_types = ['bookmark', 'feed']
 
-    def __init__(self, owner_id, created=False):
+    def __init__(self, owner_id, type, title, url, created=False):
         self.owner_id = owner_id
+        self.type = type
+        self.title = title
+        self.url = url
+
         if created:
             self.created = created
         else:
             self.created = dt.utcnow()
-
-    def delete(self):
-        self.status = self.status_map['inactive']
-        db.session.add(self)
-        db.session.commit()
 
     def update(self, args):
         for key, value in args.iteritems():
@@ -58,6 +55,11 @@ class Mark(db.Model):
         db.session.add(self)
         db.session.commit()
         return self
+
+    def delete(self):
+        self.status = self.status_map['inactive']
+        db.session.add(self)
+        db.session.commit()
 
     def update_tags(self, string):
         tagslist = []

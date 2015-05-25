@@ -1,11 +1,8 @@
-# api/views/mark.py
+# api/views/token.py
 
 from flask import g
-from flask.ext.restful import fields, marshal_with, reqparse, abort, marshal
-from ..core.setup import Resource, auth, db
-from ..core.customfields import TagList
-from ..core.validators import validate_url
-from ..models import Mark
+from flask.ext.restful import fields, marshal_with, reqparse
+from ..core.setup import Resource, auth
 
 
 token_fields = {

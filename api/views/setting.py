@@ -40,7 +40,7 @@ class Setting(Resource):
         args = put_parser.parse_args()
         setting = g.user.get_setting_by_name(name)
         if setting:
-            return setting.update(args)
+            return setting.update(args.json)
         return abort(410, message="Setting {} doesn't exist".format(name))
 
     @auth.login_required

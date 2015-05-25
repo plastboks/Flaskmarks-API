@@ -1,11 +1,8 @@
-# api/views/mark.py
+# api/views/profile.py
 
 from flask import g
-from flask.ext.restful import fields, marshal_with, reqparse, abort
-from ..core.setup import Resource, auth, db
-from ..core.validators import validate_email
-from ..core.customfields import ApiKeyList
-from ..models import User
+from flask.ext.restful import fields, marshal_with, reqparse
+from ..core.setup import Resource, auth
 from register import is_email
 
 user_fields = {
@@ -34,3 +31,8 @@ class Profile(Resource):
 
         args = put_parser.parse_args()
         return g.user.update(args)
+
+    @auth.login_required
+    @marshal_with(user_fields)
+    def delete(self):
+        return g.user.delete()

@@ -1,6 +1,6 @@
-# api/views/mark.py
+# api/views/version.py
 
-from ..core.setup import Resource, auth, db, config
+from ..core.setup import Resource, config
 
 
 class Version(Resource):

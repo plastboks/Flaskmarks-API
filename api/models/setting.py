@@ -23,9 +23,8 @@ class Setting(db.Model):
         self.name = name
         self.json = json
 
-    def update(self, args):
-        for key, value in args.iteritems():
-            setattr(self, key, value)
+    def update(self, json):
+        self.json = json
         self.updated = dt.utcnow()
         db.session.add(self)
         db.session.commit()

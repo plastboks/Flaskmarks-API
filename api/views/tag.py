@@ -1,8 +1,8 @@
-# api/views/mark.py
+# api/views/tag.py
 
 from flask import g
-from flask.ext.restful import fields, marshal_with, reqparse, abort, marshal
-from ..core.setup import Resource, auth, db
+from flask.ext.restful import fields, marshal
+from ..core.setup import Resource, auth
 
 
 tag_fields = {

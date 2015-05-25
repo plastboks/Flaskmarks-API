@@ -2,8 +2,7 @@
 
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature, SignatureExpired
-from sqlalchemy import or_, and_, desc, asc, func
-from sqlalchemy.orm import aliased
+from sqlalchemy import or_, and_, desc, asc
 from datetime import datetime
 from ..core.setup import db, config
 from .tag import Tag
@@ -32,11 +31,32 @@ class User(db.Model):
 
     smap = {'active': 1, 'inactive': 2}
 
-    def __init__(self, email=False, password=False):
-        if email:
-            self.email = email
-        if password:
-            self.password = bcrypt.hashpw(password, bcrypt.gensalt())
+    def __init__(self, email, password):
+        self.email = email
+        self.password = bcrypt.hashpw(password, bcrypt.gensalt())
+
+    def update(self, args):
+        for key, value in args.iteritems():
+            if value:
+                setattr(self, key, value)
+        db.session.add(self)
+        db.session.commit()
+        return self
+
+    def delete(self):
+        self.status = self.smap['inactive']
+        for apikey in self.my_apikeys():
+            apikey.delete()
+        db.session.add(self)
+        db.session.commit()
+        return self
+
+    def save(self):
+        if not User.by_email(self.email):
+            db.session.add(self)
+            db.session.commit()
+            return self
+        return False
 
     """
     Authentication
@@ -44,7 +64,8 @@ class User(db.Model):
     @classmethod
     def by_email(self, email):
         return self.query.filter(and_(User.email == email,
-                                      User.status == self.smap['active'])).first()
+                                      User.status == self.smap['active']))\
+                         .first()
 
     @staticmethod
     def verify_api_key(token):
@@ -60,7 +81,8 @@ class User(db.Model):
             # renew key
             t.renew()
             t.update()
-            return t.owner
+            if (t.owner.status == User.smap['active']):
+                return t.owner
         return None
 
     def verify_password(self, password):
@@ -82,11 +104,7 @@ class User(db.Model):
     Marks
     """
     def create_mark(self, type, title, url, tags):
-        m = Mark(self.id)
-        m.type = type
-        m.title = title
-        m.url = url
-        # Tags
+        m = Mark(self.id, type, title, url)
         if tags:
             m.update_tags(tags)
         db.session.add(m)
@@ -99,10 +117,12 @@ class User(db.Model):
 
     def get_mark_by_id(self, id):
         mark = self.my_marks().filter(and_(Mark.id == id,
-                                           Mark.status == self.smap['active'])).first()
+                                           Mark.status == self.smap['active']))\
+                              .first()
         if mark:
             mark.increment_clicks()
             return mark
+        return None
 
     def q_marks_by_url(self, string):
         return self.my_marks().filter(Mark.url == string).first()
@@ -179,7 +199,7 @@ class User(db.Model):
         return self.my_tags().paginate(page, self.per_page, False)
 
     """
-    Generics
+    Generic
     """
     def json_pager(self, obj):
         return {'page': obj.page,
@@ -187,21 +207,6 @@ class User(db.Model):
                 'next_num': obj.next_num if obj.has_next else -1,
                 'prev_num': obj.prev_num if obj.has_prev else -1,
                 'total': obj.total}
-
-    def update(self, args):
-        for key, value in args.iteritems():
-            if value:
-                setattr(self, key, value)
-        db.session.add(self)
-        db.session.commit()
-        return self
-
-    def save(self):
-        if not User.by_email(self.email):
-            db.session.add(self)
-            db.session.commit()
-            return self
-        return False
 
     def __repr__(self):
         return '<User %r>' % (self.username)

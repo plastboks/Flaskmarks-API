@@ -40,5 +40,9 @@ class ApiKey(db.Model):
         db.session.commit()
         return self
 
+    def delete(self):
+        self.expires = datetime.utcnow()
+        self.update()
+
     def __repr__(self):
         return '<ApiKey %d>' % (self.id)

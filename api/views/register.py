@@ -1,9 +1,8 @@
-# api/views/mark.py
+# api/views/register.py
 
 from flask.ext.restful import fields, marshal_with, reqparse, abort
-from ..core.setup import Resource, auth, db
+from ..core.setup import Resource
 from ..core.validators import validate_email
-from ..core.customfields import ApiKeyList
 from ..models import User
 
 user_fields = {
