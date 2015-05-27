@@ -8,6 +8,7 @@ import json
 
 setting_fields = {
     'name': fields.String,
+    'client': fields.String,
     'json': fields.String,
     'created': fields.DateTime,
     'updated': fields.DateTime
@@ -37,10 +38,11 @@ class Setting(Resource):
         put_parser = reqparse.RequestParser()
         put_parser.add_argument('json', type=is_json, required=True,
                                 help='Missing JSON setting blob')
+        put_parser.add_argument('client', type=str, required=False)
         args = put_parser.parse_args()
         setting = g.user.get_setting_by_name(name)
         if setting:
-            return setting.update(args.json)
+            return setting.update(args.client, args.json)
         return abort(410, message="Setting {} doesn't exist".format(name))
 
     @auth.login_required
@@ -49,10 +51,11 @@ class Setting(Resource):
         post_parser = reqparse.RequestParser()
         post_parser.add_argument('name', type=str, required=True,
                                  help='Missing name')
+        post_parser.add_argument('client', type=str, required=False)
         post_parser.add_argument('json', type=is_json, required=True,
                                  help='Missing JSON setting blob')
         args = post_parser.parse_args()
-        return g.user.create_setting(args.name, args.json)
+        return g.user.create_setting(args.name, args.client, args.json)
 
     @auth.login_required
     @marshal_with(setting_fields)

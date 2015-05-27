@@ -138,6 +138,7 @@ curl -X GET -v --basic -u "tokenkey:unused" http://localhost:5000/marks
 ##POST - Setting
 ### Args
 * name (required)
+* client
 * json (required)
 
 ```bash
@@ -171,6 +172,7 @@ curl -X GET -v --basic -u "post@example.net:1234" \
 
 ##PUT - Setting
 ### Args
+* client
 * json (required)
 
 ```bash

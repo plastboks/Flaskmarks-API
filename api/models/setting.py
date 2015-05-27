@@ -10,6 +10,7 @@ class Setting(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('User.id'))
     name = db.Column(db.Unicode(256), nullable=False)
+    client = db.Column(db.Unicode(256), nullable=True)
     json = db.Column(db.Unicode(4096), nullable=False)
     status = db.Column(db.Integer, default=1)
     created = db.Column(db.DateTime)
@@ -23,9 +24,11 @@ class Setting(db.Model):
         self.name = name
         self.json = json
 
-    def update(self, json):
+    def update(self, client, json):
         self.json = json
         self.updated = dt.utcnow()
+        if client:
+            self.client = client
         db.session.add(self)
         db.session.commit()
         return self

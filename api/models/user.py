@@ -174,8 +174,10 @@ class User(db.Model):
     """
     Settings
     """
-    def create_setting(self, name, json):
+    def create_setting(self, name, client, json):
         setting = Setting(self.id, name, json)
+        if client:
+            setting.client = client
         db.session.add(setting)
         db.session.commit()
         return setting
